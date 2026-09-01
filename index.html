@@ -1,0 +1,636 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anish Anil Shende — RTL, Verification &amp; Physical Design Engineer</title>
+<meta name="description" content="Anish Anil Shende — VLSI engineer working across RTL design, UVM/formal verification, and RTL-to-GDSII physical design.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0d12;
+    --bg-alt:#0d1319;
+    --panel:#101820;
+    --border:#1e2a35;
+    --border-bright:#324458;
+    --text:#e4ecf2;
+    --muted:#8494a3;
+    --cyan:#5fd3c4;
+    --violet:#a48cf2;
+    --amber:#eab054;
+    --max:1180px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'IBM Plex Mono', ui-monospace, monospace;
+    font-size:15px;
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:600;
+    margin:0;
+    letter-spacing:-0.01em;
+  }
+  a{color:inherit;}
+  p{color:var(--muted);}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 28px;}
+  ::selection{background:var(--cyan);color:#04100e;}
+
+  /* faint layout grid backdrop */
+  .grid-bg{
+    position:fixed;inset:0;z-index:-1;
+    background-image:
+      linear-gradient(var(--border) 1px, transparent 1px),
+      linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size:56px 56px;
+    opacity:0.18;
+    mask-image:radial-gradient(ellipse 80% 60% at 50% 0%, #000 40%, transparent 90%);
+  }
+
+  /* ---------- nav ---------- */
+  header.nav{
+    position:sticky;top:0;z-index:50;
+    background:rgba(10,13,18,0.86);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--border);
+  }
+  .nav-inner{
+    max-width:var(--max);margin:0 auto;padding:14px 28px;
+    display:flex;align-items:center;justify-content:space-between;
+  }
+  .brand{display:flex;align-items:center;gap:10px;text-decoration:none;}
+  .brand-mark{
+    width:32px;height:32px;
+    border:1.5px solid var(--cyan);
+    position:relative;
+    display:flex;align-items:center;justify-content:center;
+    font-family:'IBM Plex Mono';font-size:11px;font-weight:600;color:var(--cyan);
+    clip-path:polygon(0 8px, 8px 0, 100% 0, 100% 100%, 0 100%);
+  }
+  .brand-name{font-family:'Space Grotesk';font-size:15px;font-weight:600;color:var(--text);}
+  .brand-sub{color:var(--muted);font-size:12px;}
+  nav.links{display:flex;gap:28px;align-items:center;}
+  nav.links a{
+    text-decoration:none;color:var(--muted);font-size:13px;
+    padding:4px 2px;border-bottom:1px solid transparent;
+    transition:color .15s ease, border-color .15s ease;
+  }
+  nav.links a:hover, nav.links a.active{color:var(--text);border-color:var(--cyan);}
+  .nav-cta{
+    font-size:12px;color:var(--bg);background:var(--cyan);
+    padding:7px 14px;text-decoration:none;font-weight:600;
+    border:1px solid var(--cyan);
+  }
+  .burger{display:none;background:none;border:1px solid var(--border-bright);color:var(--text);width:36px;height:32px;cursor:pointer;}
+  @media (max-width:840px){
+    nav.links{position:fixed;top:61px;left:0;right:0;background:var(--bg-alt);
+      flex-direction:column;align-items:flex-start;gap:0;
+      border-bottom:1px solid var(--border);
+      max-height:0;overflow:hidden;transition:max-height .25s ease;}
+    nav.links.open{max-height:320px;}
+    nav.links a, nav.links .nav-cta{width:100%;padding:14px 28px;border-bottom:1px solid var(--border);box-sizing:border-box;}
+    .burger{display:block;}
+  }
+
+  /* ---------- hero ---------- */
+  .hero{
+    max-width:var(--max);margin:0 auto;padding:76px 28px 40px;
+    display:grid;grid-template-columns:1.1fr 0.9fr;gap:40px;align-items:center;
+  }
+  .eyebrow{
+    font-size:12px;color:var(--cyan);
+    display:flex;align-items:center;gap:8px;margin-bottom:18px;
+  }
+  .eyebrow::before{content:"§";color:var(--amber);}
+  .hero h1{
+    font-size:clamp(34px, 5vw, 54px);
+    line-height:1.05;
+    color:var(--text);
+  }
+  .hero-flow{
+    margin-top:18px;font-size:14px;color:var(--violet);
+    display:flex;flex-wrap:wrap;gap:8px;align-items:center;
+  }
+  .hero-flow b{color:var(--amber);font-weight:600;}
+  .hero p.lede{
+    margin-top:20px;max-width:52ch;font-size:14.5px;color:var(--muted);
+  }
+  .hero-actions{display:flex;gap:14px;margin-top:30px;flex-wrap:wrap;}
+  .btn{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:11px 20px;font-size:13px;font-family:'IBM Plex Mono';font-weight:500;
+    text-decoration:none;border:1px solid var(--border-bright);color:var(--text);
+    transition:border-color .15s ease, color .15s ease;
+  }
+  .btn-primary{background:var(--cyan);color:#04100e;border-color:var(--cyan);font-weight:600;}
+  .btn:hover{border-color:var(--cyan);color:var(--cyan);}
+  .btn-primary:hover{color:#04100e;opacity:0.9;}
+  .hero-loc{margin-top:26px;font-size:12px;color:var(--muted);}
+  .hero-loc span{color:var(--text);}
+
+  .hero-visual{position:relative;}
+  .hero-visual svg{width:100%;height:auto;display:block;}
+
+  /* ---------- marquee ---------- */
+  .marquee-wrap{
+    border-top:1px solid var(--border);border-bottom:1px solid var(--border);
+    overflow:hidden;background:var(--bg-alt);
+  }
+  .marquee{
+    display:flex;white-space:nowrap;padding:12px 0;
+    animation:scroll 34s linear infinite;
+  }
+  .marquee span{
+    font-size:12.5px;color:var(--muted);padding:0 18px;border-right:1px solid var(--border);
+  }
+  .marquee span b{color:var(--cyan);font-weight:500;}
+  @keyframes scroll{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+  @media (prefers-reduced-motion: reduce){.marquee{animation:none;}}
+
+  /* ---------- stats ---------- */
+  .stats{
+    max-width:var(--max);margin:0 auto;padding:46px 28px;
+    display:grid;grid-template-columns:repeat(4,1fr);gap:1px;
+    background:var(--border);border:1px solid var(--border);
+  }
+  .stat{background:var(--bg);padding:24px 20px;}
+  .stat .v{font-family:'Space Grotesk';font-size:26px;font-weight:700;color:var(--cyan);}
+  .stat .l{font-size:12px;color:var(--muted);margin-top:6px;}
+  @media (max-width:720px){.stats{grid-template-columns:repeat(2,1fr);}}
+
+  /* ---------- sections ---------- */
+  section{max-width:var(--max);margin:0 auto;padding:88px 28px;border-top:1px solid var(--border);}
+  .head{display:flex;align-items:baseline;gap:16px;margin-bottom:44px;}
+  .head .tag{font-size:12px;color:var(--amber);}
+  .head h2{font-size:clamp(24px,3vw,32px);}
+
+  /* about */
+  .about-grid{display:grid;grid-template-columns:0.95fr 1.05fr;gap:56px;}
+  .about-grid p{margin:0 0 16px;font-size:14.5px;}
+  .about-grid p:last-child{margin-bottom:0;}
+  .about-grid strong{color:var(--text);font-weight:600;}
+
+  .stack{border:1px solid var(--border);}
+  .stack-row{border-bottom:1px solid var(--border);padding:16px 18px;}
+  .stack-row:last-child{border-bottom:none;}
+  .stack-row .layer-id{
+    font-size:11px;color:var(--violet);letter-spacing:0.04em;margin-bottom:8px;display:block;
+  }
+  .chips{display:flex;flex-wrap:wrap;gap:8px;}
+  .chip{
+    font-size:12px;color:var(--text);border:1px solid var(--border-bright);
+    padding:4px 9px;background:var(--panel);
+  }
+
+  /* experience */
+  .timeline{border-left:1px solid var(--border);margin-left:6px;}
+  .tl-item{position:relative;padding:0 0 44px 32px;}
+  .tl-item:last-child{padding-bottom:0;}
+  .tl-item::before{
+    content:"";position:absolute;left:-5.5px;top:4px;
+    width:10px;height:10px;background:var(--bg);border:2px solid var(--cyan);
+  }
+  .tl-head{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:6px;}
+  .tl-role{font-family:'Space Grotesk';font-size:17px;font-weight:600;color:var(--text);}
+  .tl-org{color:var(--violet);font-size:13px;margin-top:2px;}
+  .tl-date{font-size:12px;color:var(--muted);white-space:nowrap;}
+  .tl-item ul{margin:12px 0 0;padding-left:18px;}
+  .tl-item li{font-size:14px;color:var(--muted);margin-bottom:8px;}
+  .tl-item li::marker{color:var(--amber);}
+
+  /* projects */
+  .proj-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);}
+  .proj{background:var(--bg);padding:28px;position:relative;}
+  .proj::before, .proj::after{content:"";position:absolute;width:10px;height:10px;border:1px solid var(--border-bright);opacity:0;transition:opacity .15s ease;}
+  .proj::before{top:8px;left:8px;border-right:none;border-bottom:none;}
+  .proj::after{bottom:8px;right:8px;border-left:none;border-top:none;}
+  .proj:hover::before, .proj:hover::after{opacity:1;border-color:var(--cyan);}
+  .proj h3{font-size:18px;margin-bottom:4px;}
+  .proj .role{font-size:12px;color:var(--violet);margin-bottom:14px;}
+  .proj p{font-size:13.5px;margin:0 0 14px;}
+  .proj .chips{margin-bottom:16px;}
+  .proj-stats{display:flex;gap:20px;flex-wrap:wrap;border-top:1px solid var(--border);padding-top:14px;}
+  .proj-stats div{font-size:11px;color:var(--muted);}
+  .proj-stats b{display:block;font-family:'Space Grotesk';font-size:16px;color:var(--amber);font-weight:600;}
+  @media (max-width:840px){.proj-grid{grid-template-columns:1fr;}}
+
+  /* recognition */
+  .rec-grid{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);}
+  .rec-card{background:var(--bg);padding:26px;}
+  .rec-card h3{font-size:15px;margin-bottom:12px;color:var(--cyan);}
+  .rec-card p{font-size:13.5px;margin:0;}
+  .rec-card ul{margin:0;padding-left:16px;}
+  .rec-card li{font-size:13.5px;color:var(--muted);margin-bottom:8px;}
+  @media (max-width:900px){.rec-grid{grid-template-columns:1fr;}}
+
+  /* education */
+  .edu-card{border:1px solid var(--border);padding:32px;display:flex;justify-content:space-between;gap:30px;flex-wrap:wrap;}
+  .edu-card h3{font-size:19px;margin-bottom:4px;}
+  .edu-card .org{color:var(--violet);font-size:13px;margin-bottom:16px;}
+  .edu-card .cgpa{text-align:right;}
+  .edu-card .cgpa .v{font-family:'Space Grotesk';font-size:30px;color:var(--cyan);font-weight:700;}
+  .edu-card .cgpa .l{font-size:11px;color:var(--muted);}
+
+  /* contact */
+  #contact{text-align:left;}
+  #contact h2{font-size:clamp(28px,4vw,42px);max-width:14ch;margin-bottom:20px;}
+  #contact p.lede{max-width:50ch;font-size:14.5px;margin-bottom:36px;}
+  .contact-links{display:flex;gap:0;flex-wrap:wrap;border:1px solid var(--border);}
+  .contact-links a{
+    flex:1;min-width:200px;text-decoration:none;padding:22px 22px;border-right:1px solid var(--border);
+    color:var(--text);transition:background .15s ease;
+  }
+  .contact-links a:last-child{border-right:none;}
+  .contact-links a:hover{background:var(--panel);}
+  .contact-links .k{display:block;font-size:11px;color:var(--muted);margin-bottom:6px;}
+  .contact-links .val{font-size:14px;color:var(--cyan);}
+
+  footer{border-top:1px solid var(--border);padding:26px 28px;}
+  footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;font-size:12px;color:var(--muted);}
+</style>
+</head>
+<body>
+
+<div class="grid-bg"></div>
+
+<header class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="#top">
+      <span class="brand-mark">AS</span>
+      <span>
+        <span class="brand-name">Anish Shende</span><br>
+        <span class="brand-sub">VLSI Engineer</span>
+      </span>
+    </a>
+    <nav class="links" id="navLinks">
+      <a href="#about">About</a>
+      <a href="#experience">Experience</a>
+      <a href="#projects">Projects</a>
+      <a href="#education">Education</a>
+      <a class="nav-cta" href="#contact">Contact</a>
+    </nav>
+    <button class="burger" id="burger" aria-label="Toggle menu">☰</button>
+  </div>
+</header>
+
+<main id="top">
+
+  <section class="hero" style="border-top:none;">
+    <div class="hero-copy">
+      <div class="eyebrow">vlsi.engineer / b.tech · vit chennai</div>
+      <h1>Anish Anil Shende</h1>
+      <div class="hero-flow">RTL <b>→</b> Verification <b>→</b> GDSII</div>
+      <p class="lede">
+        I take digital designs from architecture to silicon — writing RTL, verifying it against
+        spec with UVM and formal methods, then carrying it through the physical design flow to a
+        clean, sign-off-ready GDSII.
+      </p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#contact">Get in touch</a>
+        <a class="btn" href="Anish_Shende_Resume.pdf" download>Download résumé</a>
+      </div>
+      <div class="hero-loc">Based in <span>Chennai, India</span> — open to RTL, DV &amp; physical design roles</div>
+    </div>
+
+    <div class="hero-visual" aria-hidden="true">
+      <svg viewBox="0 0 480 380" xmlns="http://www.w3.org/2000/svg">
+        <!-- rulers -->
+        <g stroke="#1e2a35" stroke-width="1">
+          <line x1="30" y1="10" x2="30" y2="360"/>
+          <line x1="10" y1="30" x2="460" y2="30"/>
+        </g>
+        <g fill="#5a6b7a" font-family="IBM Plex Mono" font-size="9">
+          <text x="6" y="70">80</text>
+          <text x="6" y="160">40</text>
+          <text x="6" y="250">20</text>
+          <text x="60" y="22">10</text>
+          <text x="220" y="22">40</text>
+          <text x="380" y="22">70</text>
+        </g>
+        <!-- die outline -->
+        <rect x="50" y="46" width="410" height="300" fill="none" stroke="#324458" stroke-width="1.5" stroke-dasharray="4 3"/>
+
+        <!-- blocks -->
+        <rect x="80" y="80" width="120" height="70" fill="#101820" stroke="#5fd3c4" stroke-width="1.5"/>
+        <text x="98" y="120" fill="#5fd3c4" font-family="IBM Plex Mono" font-size="13" font-weight="600">RTL</text>
+
+        <rect x="270" y="70" width="150" height="80" fill="#101820" stroke="#a48cf2" stroke-width="1.5"/>
+        <text x="300" y="115" fill="#a48cf2" font-family="IBM Plex Mono" font-size="13" font-weight="600">UVM / DV</text>
+
+        <rect x="110" y="220" width="260" height="90" fill="#101820" stroke="#eab054" stroke-width="1.5"/>
+        <text x="200" y="270" fill="#eab054" font-family="IBM Plex Mono" font-size="13" font-weight="600">P&amp;R → GDSII</text>
+
+        <!-- routing traces -->
+        <path d="M200 115 H250 V110 H270" fill="none" stroke="#5fd3c4" stroke-width="1.5"/>
+        <path d="M345 150 V190 H240 V220" fill="none" stroke="#a48cf2" stroke-width="1.5"/>
+        <path d="M140 150 V220" fill="none" stroke="#5fd3c4" stroke-width="1.5"/>
+
+        <!-- vias -->
+        <circle cx="270" cy="110" r="3" fill="#eab054"/>
+        <circle cx="240" cy="220" r="3" fill="#eab054"/>
+        <circle cx="140" cy="220" r="3" fill="#eab054"/>
+
+        <!-- filler cell texture -->
+        <g stroke="#1e2a35" stroke-width="1">
+          <line x1="380" y1="220" x2="380" y2="310"/>
+          <line x1="330" y1="220" x2="330" y2="310"/>
+        </g>
+      </svg>
+    </div>
+  </section>
+
+  <div class="marquee-wrap">
+    <div class="marquee">
+      <span><b>Verilog</b></span><span><b>SystemVerilog</b></span><span><b>UVM</b></span>
+      <span><b>SVA</b></span><span><b>RTL-to-GDSII</b></span><span><b>STA</b></span>
+      <span><b>Cadence Innovus</b></span><span><b>Synopsys DC</b></span><span><b>OpenROAD</b></span>
+      <span><b>Formal Verification</b></span><span><b>DRC / LVS</b></span><span><b>Low-Power Design</b></span>
+      <span><b>Verilog</b></span><span><b>SystemVerilog</b></span><span><b>UVM</b></span>
+      <span><b>SVA</b></span><span><b>RTL-to-GDSII</b></span><span><b>STA</b></span>
+      <span><b>Cadence Innovus</b></span><span><b>Synopsys DC</b></span><span><b>OpenROAD</b></span>
+      <span><b>Formal Verification</b></span><span><b>DRC / LVS</b></span><span><b>Low-Power Design</b></span>
+    </div>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><div class="v">Zero</div><div class="l">DRC / LVS violations at GDSII sign-off</div></div>
+    <div class="stat"><div class="v">54.4K µm²</div><div class="l">die area, SparseFlow accelerator</div></div>
+    <div class="stat"><div class="v">20.9K</div><div class="l">cells synthesized, Nangate 45nm</div></div>
+    <div class="stat"><div class="v">3 / 3</div><div class="l">formal properties proven, SymbiYosys</div></div>
+  </div>
+
+  <section id="about">
+    <div class="head"><span class="tag">/about</span><h2>Working across the full chip lifecycle</h2></div>
+    <div class="about-grid">
+      <div>
+        <p>
+          I'm a <strong>B.Tech Electronics Engineering (VLSI Design and Technology)</strong> student
+          at VIT Chennai, and I've spent the last two years going deep on the parts of chip design
+          most people only see one slice of: writing <strong>RTL and microarchitecture</strong>,
+          proving it correct with <strong>UVM and formal verification</strong>, and carrying it
+          through <strong>ASIC physical design</strong> to a manufacturable GDSII.
+        </p>
+        <p>
+          That's shown up as an FPGA-based neuromorphic accelerator at Edge Synapse, a full
+          RTL-to-GDSII SPI tapeout flow at Maven Silicon, and independent projects like SparseFlow,
+          a sparsity-aware neural network accelerator I took from architecture through a
+          DRC-clean layout on my own.
+        </p>
+        <p>
+          Outside the lab, I spent two years running operations for VIT's Finance and Management
+          Club — club member to Operations Director to Advisory — which is where I learned that
+          good hardware and good process both come down to the same thing: verify everything,
+          assume nothing.
+        </p>
+      </div>
+
+      <div class="stack">
+        <div class="stack-row">
+          <span class="layer-id">M3 — EDA &amp; PHYSICAL DESIGN TOOLS</span>
+          <div class="chips">
+            <span class="chip">Cadence Genus</span><span class="chip">Innovus</span>
+            <span class="chip">Virtuoso</span><span class="chip">Tempus</span>
+            <span class="chip">Synopsys DC</span><span class="chip">ICC2</span>
+            <span class="chip">PrimeTime</span><span class="chip">QFLOW</span>
+            <span class="chip">Yosys</span><span class="chip">OpenROAD</span>
+            <span class="chip">Magic</span><span class="chip">Netgen</span>
+          </div>
+        </div>
+        <div class="stack-row">
+          <span class="layer-id">M2 — SIMULATION &amp; VERIFICATION</span>
+          <div class="chips">
+            <span class="chip">ModelSim</span><span class="chip">QuestaSim</span>
+            <span class="chip">VCS</span><span class="chip">OpenSTA</span>
+            <span class="chip">SymbiYosys</span><span class="chip">Cocotb</span>
+            <span class="chip">Xilinx Vivado</span>
+          </div>
+        </div>
+        <div class="stack-row">
+          <span class="layer-id">M1 — HDLs &amp; PROGRAMMING</span>
+          <div class="chips">
+            <span class="chip">Verilog</span><span class="chip">SystemVerilog</span>
+            <span class="chip">C</span><span class="chip">C++</span>
+            <span class="chip">Python</span><span class="chip">TCL</span>
+            <span class="chip">Embedded C</span>
+          </div>
+        </div>
+        <div class="stack-row">
+          <span class="layer-id">POLY — CORE CONCEPTS</span>
+          <div class="chips">
+            <span class="chip">RTL Design</span><span class="chip">Microarchitecture</span>
+            <span class="chip">Digital Logic Design</span><span class="chip">RTL-to-GDSII</span>
+            <span class="chip">Physical Design</span><span class="chip">STA</span>
+            <span class="chip">Design Verification</span><span class="chip">Low-Power Design</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="experience">
+    <div class="head"><span class="tag">/experience</span><h2>Where I've built real hardware</h2></div>
+    <div class="timeline">
+
+      <div class="tl-item">
+        <div class="tl-head">
+          <div><div class="tl-role">Hardware Design Intern</div><div class="tl-org">Owens Corning — Robotics &amp; Automation</div></div>
+          <div class="tl-date">Summer 2026</div>
+        </div>
+        <ul>
+          <li>Worked on hardware design initiatives for robotics and automation, programming and integrating 8 Yaskawa industrial robotic arms.</li>
+          <li>Interfaced with PLC-based control systems for automation sequencing and I/O configuration, reducing manual setup steps.</li>
+        </ul>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-head">
+          <div><div class="tl-role">Physical Design Intern</div><div class="tl-org">Maven Silicon — SPI, RTL-to-GDSII via QFLOW</div></div>
+          <div class="tl-date">2026</div>
+        </div>
+        <ul>
+          <li>Executed the complete RTL-to-GDSII flow — synthesis, floorplanning, placement, CTS, routing and sign-off — using QFLOW, and improved post-CTS timing (WNS/TNS) using OpenSTA.</li>
+          <li>Completed physical sign-off via DRC and LVS verification using Magic and Netgen, delivering a clean GDSII with zero DRC/LVS violations.</li>
+        </ul>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-head">
+          <div><div class="tl-role">SNN–DDS Integration Intern</div><div class="tl-org">Edge Synapse — Neuromorphic AI Edge Accelerator</div></div>
+          <div class="tl-date">2025 – 2026</div>
+        </div>
+        <ul>
+          <li>Designed hardware Spiking Neural Network architectures using LIF neuron models, and developed multi-layer SNN modules in Verilog integrated with DDS IP.</li>
+          <li>Verified and deployed the design on FPGA (Zynq UltraScale+ MPSoC) using Vivado, achieving stable real-time operation.</li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="projects">
+    <div class="head"><span class="tag">/projects</span><h2>Independent chip &amp; systems work</h2></div>
+    <div class="proj-grid">
+
+      <div class="proj">
+        <h3>SparseFlow</h3>
+        <div class="role">Sparsity-aware neural network hardware accelerator</div>
+        <p>Architected and implemented in RTL a hardware accelerator that exploits weight sparsity via a 64-bit zero-detection bitmap to clock-gate MAC cells — verified with UVM and formal methods, then synthesized to a DRC-clean GDSII.</p>
+        <div class="chips">
+          <span class="chip">RTL Design</span><span class="chip">UVM</span>
+          <span class="chip">Formal Verification</span><span class="chip">Physical Design</span>
+        </div>
+        <div class="proj-stats">
+          <div><b>54,436 µm²</b>GDSII area</div>
+          <div><b>20,917</b>cells (Nangate 45nm)</div>
+          <div><b>3</b>proven correctness properties</div>
+        </div>
+      </div>
+
+      <div class="proj">
+        <h3>AMBA AXI4 UVM Verification IP</h3>
+        <div class="role">Protocol verification environment</div>
+        <p>Built a parameterized AMBA AXI4 UVM verification IP with a master agent, scoreboard and golden reference model, plus functional coverage, to verify a self-checking RTL slave DUT.</p>
+        <div class="chips">
+          <span class="chip">SystemVerilog</span><span class="chip">UVM</span>
+          <span class="chip">AXI4 Protocol</span>
+        </div>
+        <div class="proj-stats">
+          <div><b>32/64/4</b>addr / data / ID bits</div>
+          <div><b>✓</b>self-checking DUT</div>
+        </div>
+      </div>
+
+      <div class="proj">
+        <h3>3×3 Box Filter</h3>
+        <div class="role">DSP &amp; VLSI implementation</div>
+        <p>Designed a 3-stage pipelined RTL architecture achieving one output per cycle in Vivado, plus a folded variant for area reduction, with an IEEE-format trade-off analysis of the two approaches.</p>
+        <div class="chips">
+          <span class="chip">Digital Signal Processing</span><span class="chip">RTL Design</span>
+          <span class="chip">Pipelined &amp; Folded Architecture</span>
+        </div>
+        <div class="proj-stats">
+          <div><b>1/cyc</b>pipelined throughput</div>
+          <div><b>2</b>architectures compared</div>
+        </div>
+      </div>
+
+      <div class="proj">
+        <h3>Handheld Multi-Game System</h3>
+        <div class="role">Embedded systems</div>
+        <p>Developed a handheld multi-game embedded system with graphics rendering on a 128×64 SSD1306 OLED over I2C, and GPIO-based button controls optimized for real-time gameplay.</p>
+        <div class="chips">
+          <span class="chip">Embedded C</span><span class="chip">Raspberry Pi Pico</span>
+          <span class="chip">I2C</span><span class="chip">GPIO</span>
+        </div>
+        <div class="proj-stats">
+          <div><b>128×64</b>OLED display</div>
+          <div><b>Real-time</b>gameplay loop</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="recognition">
+    <div class="head"><span class="tag">/recognition</span><h2>Hackathons, certifications &amp; leadership</h2></div>
+    <div class="rec-grid">
+      <div class="rec-card">
+        <h3>RoboAOI — AMD AI DevMaster 2026</h3>
+        <p>Built solo, in the Physical AI track: an AI-powered robotic inspection and defect-sorting system for PCB/semiconductor manufacturing, using YOLO11 defect detection with a robotic arm in the Genesis simulator.</p>
+      </div>
+      <div class="rec-card">
+        <h3>Certifications</h3>
+        <ul>
+          <li>Digital Design and Signoff Academic Curriculum v1.0 — Cadence</li>
+          <li>Digital Design and Verification Academic Curriculum v1.0 — Cadence</li>
+          <li>Cadence Student Ambassador</li>
+        </ul>
+      </div>
+      <div class="rec-card">
+        <h3>VIT Finance &amp; Management Club</h3>
+        <ul>
+          <li>Advisory (current)</li>
+          <li>Operations Director</li>
+          <li>Club Member — Jul 2024 start</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="education">
+    <div class="head"><span class="tag">/education</span><h2>Education</h2></div>
+    <div class="edu-card">
+      <div>
+        <h3>B.Tech, Electronics Engineering (VLSI Design and Technology)</h3>
+        <div class="org">Vellore Institute of Technology, Chennai · Aug 2023 – Present</div>
+        <div class="chips">
+          <span class="chip">Computer Architecture</span><span class="chip">VLSI Physical Design</span>
+          <span class="chip">Digital IC Design</span><span class="chip">Design Verification</span>
+          <span class="chip">CAD for IC Design Algorithms</span><span class="chip">Semiconductor Devices</span>
+        </div>
+      </div>
+      <div class="cgpa">
+        <div class="v">8.14</div>
+        <div class="l">CGPA / 10.0</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="head" style="margin-bottom:0;"><span class="tag">/contact</span></div>
+    <h2>Let's build something that ships clean.</h2>
+    <p class="lede">Open to RTL design, design verification, and physical design internships or full-time roles in the semiconductor industry. I reply fastest by email.</p>
+    <div class="contact-links">
+      <a href="mailto:aneesh4651@gmail.com">
+        <span class="k">Email</span><span class="val">aneesh4651@gmail.com</span>
+      </a>
+      <a href="https://www.linkedin.com/in/anish-shende-5bb85828a" target="_blank" rel="noopener">
+        <span class="k">LinkedIn</span><span class="val">linkedin.com/in/anish-shende</span>
+      </a>
+      <a href="https://github.com/aanishhhh" target="_blank" rel="noopener">
+        <span class="k">GitHub</span><span class="val">github.com/aanishhhh</span>
+      </a>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>Anish Anil Shende — VLSI · RTL · Verification · Physical Design</span>
+    <span>Chennai, India</span>
+  </div>
+</footer>
+
+<script>
+  // mobile nav toggle
+  const burger = document.getElementById('burger');
+  const navLinks = document.getElementById('navLinks');
+  burger.addEventListener('click', () => navLinks.classList.toggle('open'));
+  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
+
+  // scrollspy
+  const sections = ['about','experience','projects','education','contact']
+    .map(id => document.getElementById(id)).filter(Boolean);
+  const links = Array.from(navLinks.querySelectorAll('a[href^="#"]'));
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        const id = '#' + entry.target.id;
+        links.forEach(l => l.classList.toggle('active', l.getAttribute('href') === id));
+      }
+    });
+  }, { rootMargin: '-40% 0px -55% 0px' });
+  sections.forEach(s => io.observe(s));
+</script>
+
+</body>
+</html>
