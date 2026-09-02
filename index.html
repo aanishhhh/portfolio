@@ -1,635 +1,979 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Anish Anil Shende — RTL, Verification &amp; Physical Design Engineer</title>
-<meta name="description" content="Anish Anil Shende — VLSI engineer working across RTL design, UVM/formal verification, and RTL-to-GDSII physical design.">
+<title>ANISH SHENDE — VLSI / RTL DESIGN ENGINEER</title>
+<meta name="description" content="Anish Shende. VLSI / RTL Design &amp; Verification Engineer. RTL-to-GDSII physical design, UVM verification, FPGA accelerators.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap"></noscript>
+<script defer src="https://unpkg.com/lenis@1.1.9/dist/lenis.min.js"></script>
 <style>
-  :root{
-    --bg:#0a0d12;
-    --bg-alt:#0d1319;
-    --panel:#101820;
-    --border:#1e2a35;
-    --border-bright:#324458;
-    --text:#e4ecf2;
-    --muted:#8494a3;
-    --cyan:#5fd3c4;
-    --violet:#a48cf2;
-    --amber:#eab054;
-    --max:1180px;
-  }
-  *{box-sizing:border-box;}
-  html{scroll-behavior:smooth;}
-  body{
-    margin:0;
-    background:var(--bg);
-    color:var(--text);
-    font-family:'IBM Plex Mono', ui-monospace, monospace;
-    font-size:15px;
-    line-height:1.65;
-    -webkit-font-smoothing:antialiased;
-  }
-  h1,h2,h3{
-    font-family:'Space Grotesk', sans-serif;
-    font-weight:600;
-    margin:0;
-    letter-spacing:-0.01em;
-  }
-  a{color:inherit;}
-  p{color:var(--muted);}
-  .wrap{max-width:var(--max);margin:0 auto;padding:0 28px;}
-  ::selection{background:var(--cyan);color:#04100e;}
+:root {
+  --bg:      #050505;
+  --ink:     #f4f4f5;
+  --acc:     #cc3d10;
+  --acc-rgb: 204,61,16;
+  --blue-rgb:30,77,183;
+  --muted:   rgba(255,255,255,.85);
+  --bd:      rgba(204, 61, 16, 0.85);
+  --mono:    'Space Mono', monospace;
+  --dsp:     'Inter', sans-serif;
+  --ease:    cubic-bezier(.16,1,.3,1);
+}
+*, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+html { font-size:16px; scroll-behavior:auto; }
+body { font-family: var(--dsp); background: var(--bg); color: var(--ink); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+a { color:inherit; text-decoration:none; }
+::-webkit-scrollbar { width:3px; }
+::-webkit-scrollbar-track { background:var(--bg); }
+::-webkit-scrollbar-thumb { background:var(--ink); }
 
-  /* faint layout grid backdrop */
-  .grid-bg{
-    position:fixed;inset:0;z-index:-1;
-    background-image:
-      linear-gradient(var(--border) 1px, transparent 1px),
-      linear-gradient(90deg, var(--border) 1px, transparent 1px);
-    background-size:56px 56px;
-    opacity:0.18;
-    mask-image:radial-gradient(ellipse 80% 60% at 50% 0%, #000 40%, transparent 90%);
-  }
+.gc {
+  position:relative;
+  background: linear-gradient(135deg, rgba(20,20,20,0.95) 0%, rgba(5,5,5,0.85) 100%);
+  backdrop-filter: blur(24px) saturate(150%);
+  -webkit-backdrop-filter: blur(24px) saturate(150%);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-top: 1px solid rgba(255,255,255,0.3);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.1), 0 24px 64px rgba(0,0,0,0.8);
+  border-radius: 12px; overflow: hidden; transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease);
+}
+.gc:hover { transform: translateY(-4px); box-shadow: inset 0 1px 0 rgba(255,255,255,0.2), 0 24px 64px rgba(0,0,0,0.8); }
+.gc::before { content:''; position:absolute; top:0; left:8%; right:8%; height:1px; background: linear-gradient(90deg,transparent,rgba(255,255,255,0.2),transparent); pointer-events:none; }
 
-  /* ---------- nav ---------- */
-  header.nav{
-    position:sticky;top:0;z-index:50;
-    background:rgba(10,13,18,0.86);
-    backdrop-filter:blur(8px);
-    border-bottom:1px solid var(--border);
-  }
-  .nav-inner{
-    max-width:var(--max);margin:0 auto;padding:14px 28px;
-    display:flex;align-items:center;justify-content:space-between;
-  }
-  .brand{display:flex;align-items:center;gap:10px;text-decoration:none;}
-  .brand-mark{
-    width:32px;height:32px;
-    border:1.5px solid var(--cyan);
-    position:relative;
-    display:flex;align-items:center;justify-content:center;
-    font-family:'IBM Plex Mono';font-size:11px;font-weight:600;color:var(--cyan);
-    clip-path:polygon(0 8px, 8px 0, 100% 0, 100% 100%, 0 100%);
-  }
-  .brand-name{font-family:'Space Grotesk';font-size:15px;font-weight:600;color:var(--text);}
-  .brand-sub{color:var(--muted);font-size:12px;}
-  nav.links{display:flex;gap:28px;align-items:center;}
-  nav.links a{
-    text-decoration:none;color:var(--muted);font-size:13px;
-    padding:4px 2px;border-bottom:1px solid transparent;
-    transition:color .15s ease, border-color .15s ease;
-  }
-  nav.links a:hover, nav.links a.active{color:var(--text);border-color:var(--cyan);}
-  .nav-cta{
-    font-size:12px;color:var(--bg);background:var(--cyan);
-    padding:7px 14px;text-decoration:none;font-weight:600;
-    border:1px solid var(--cyan);
-  }
-  .burger{display:none;background:none;border:1px solid var(--border-bright);color:var(--text);width:36px;height:32px;cursor:pointer;}
-  @media (max-width:840px){
-    nav.links{position:fixed;top:61px;left:0;right:0;background:var(--bg-alt);
-      flex-direction:column;align-items:flex-start;gap:0;
-      border-bottom:1px solid var(--border);
-      max-height:0;overflow:hidden;transition:max-height .25s ease;}
-    nav.links.open{max-height:320px;}
-    nav.links a, nav.links .nav-cta{width:100%;padding:14px 28px;border-bottom:1px solid var(--border);box-sizing:border-box;}
-    .burger{display:block;}
-  }
+.t3d { opacity:1; transform: translateY(0); transition: opacity .6s var(--ease), transform .6s var(--ease); }
+.js .t3d { opacity:0; transform: translateY(12px); }
 
-  /* ---------- hero ---------- */
-  .hero{
-    max-width:var(--max);margin:0 auto;padding:76px 28px 40px;
-    display:grid;grid-template-columns:1.1fr 0.9fr;gap:40px;align-items:center;
-  }
-  .eyebrow{
-    font-size:12px;color:var(--cyan);
-    display:flex;align-items:center;gap:8px;margin-bottom:18px;
-  }
-  .eyebrow::before{content:"§";color:var(--amber);}
-  .hero h1{
-    font-size:clamp(34px, 5vw, 54px);
-    line-height:1.05;
-    color:var(--text);
-  }
-  .hero-flow{
-    margin-top:18px;font-size:14px;color:var(--violet);
-    display:flex;flex-wrap:wrap;gap:8px;align-items:center;
-  }
-  .hero-flow b{color:var(--amber);font-weight:600;}
-  .hero p.lede{
-    margin-top:20px;max-width:52ch;font-size:14.5px;color:var(--muted);
-  }
-  .hero-actions{display:flex;gap:14px;margin-top:30px;flex-wrap:wrap;}
-  .btn{
-    display:inline-flex;align-items:center;gap:8px;
-    padding:11px 20px;font-size:13px;font-family:'IBM Plex Mono';font-weight:500;
-    text-decoration:none;border:1px solid var(--border-bright);color:var(--text);
-    transition:border-color .15s ease, color .15s ease;
-  }
-  .btn-primary{background:var(--cyan);color:#04100e;border-color:var(--cyan);font-weight:600;}
-  .btn:hover{border-color:var(--cyan);color:var(--cyan);}
-  .btn-primary:hover{color:#04100e;opacity:0.9;}
-  .hero-loc{margin-top:26px;font-size:12px;color:var(--muted);}
-  .hero-loc span{color:var(--text);}
+/* ── CIRCUIT BACKGROUND ───────────────────────────────── */
+#circuit-bg { position:fixed; inset:0; z-index:0; pointer-events:none; opacity:0.5; }
+nav, .hero, .mq, .sec, footer { position:relative; z-index:2; }
 
-  .hero-visual{position:relative;}
-  .hero-visual svg{width:100%;height:auto;display:block;}
+/* ── GLITCH HOVER TEXT ────────────────────────────────── */
+.glitch { position:relative; display:inline-block; }
+.glitch::before, .glitch::after {
+  content: attr(data-text); position:absolute; top:0; left:0; width:100%; height:100%;
+  opacity:0; pointer-events:none; font:inherit; letter-spacing:inherit; color:inherit;
+}
+.glitch:hover::before { left:3px; color:var(--acc); opacity:.85; animation: glitch-r .18s steps(1) infinite; mix-blend-mode:screen; }
+.glitch:hover::after  { left:-3px; color:#4a9eff; opacity:.85; animation: glitch-b .22s steps(1) infinite; mix-blend-mode:screen; }
+@keyframes glitch-r { 0%{clip-path:inset(0 0 88% 0)} 25%{clip-path:inset(45% 0 30% 0)} 50%{clip-path:inset(70% 0 10% 0)} 75%{clip-path:inset(20% 0 60% 0)} 100%{clip-path:inset(55% 0 25% 0)} }
+@keyframes glitch-b { 0%{clip-path:inset(15% 0 65% 0)} 25%{clip-path:inset(60% 0 8% 0)} 50%{clip-path:inset(30% 0 50% 0)} 75%{clip-path:inset(80% 0 5% 0)} 100%{clip-path:inset(5% 0 75% 0)} }
 
-  /* ---------- marquee ---------- */
-  .marquee-wrap{
-    border-top:1px solid var(--border);border-bottom:1px solid var(--border);
-    overflow:hidden;background:var(--bg-alt);
-  }
-  .marquee{
-    display:flex;white-space:nowrap;padding:12px 0;
-    animation:scroll 34s linear infinite;
-  }
-  .marquee span{
-    font-size:12.5px;color:var(--muted);padding:0 18px;border-right:1px solid var(--border);
-  }
-  .marquee span b{color:var(--cyan);font-weight:500;}
-  @keyframes scroll{from{transform:translateX(0);}to{transform:translateX(-50%);}}
-  @media (prefers-reduced-motion: reduce){.marquee{animation:none;}}
+/* ── BOOT SEQUENCE ────────────────────────────────────── */
+#boot-seq { position:fixed; inset:0; background:#050505; z-index:999999; padding:48px 40px; color:var(--acc); font-family:var(--mono); font-size:12px; text-transform:uppercase; letter-spacing:.1em; white-space:pre-wrap; line-height:1.8; transition:opacity .2s, transform .2s; }
+#boot-seq.off { opacity:0; transform:scale(1.04); pointer-events:none; }
+#boot-seq.hidden { display:none; }
 
-  /* ---------- stats ---------- */
-  .stats{
-    max-width:var(--max);margin:0 auto;padding:46px 28px;
-    display:grid;grid-template-columns:repeat(4,1fr);gap:1px;
-    background:var(--border);border:1px solid var(--border);
-  }
-  .stat{background:var(--bg);padding:24px 20px;}
-  .stat .v{font-family:'Space Grotesk';font-size:26px;font-weight:700;color:var(--cyan);}
-  .stat .l{font-size:12px;color:var(--muted);margin-top:6px;}
-  @media (max-width:720px){.stats{grid-template-columns:repeat(2,1fr);}}
+/* ── LIVE STATUS BAR ──────────────────────────────────── */
+.mq-t span.fpga { color:#4a9eff; font-weight:700; }
 
-  /* ---------- sections ---------- */
-  section{max-width:var(--max);margin:0 auto;padding:88px 28px;border-top:1px solid var(--border);}
-  .head{display:flex;align-items:baseline;gap:16px;margin-bottom:44px;}
-  .head .tag{font-size:12px;color:var(--amber);}
-  .head h2{font-size:clamp(24px,3vw,32px);}
+/* ── MAGNETIC HOVER ───────────────────────────────────── */
+.nav-links a, .proj-gh, .cg-cell a, .ft-r a { display:inline-block; transition: transform .12s linear, color .15s; }
+.nav-links a:hover, .ft-r a:hover { color: var(--acc); }
 
-  /* about */
-  .about-grid{display:grid;grid-template-columns:0.95fr 1.05fr;gap:56px;}
-  .about-grid p{margin:0 0 16px;font-size:14.5px;}
-  .about-grid p:last-child{margin-bottom:0;}
-  .about-grid strong{color:var(--text);font-weight:600;}
+/* ── SCANLINE FLICKER ─────────────────────────────────── */
+body::after { content:''; position:fixed; inset:0; z-index:1; pointer-events:none; background: repeating-linear-gradient(0deg, rgba(255,255,255,0.012) 0px, rgba(255,255,255,0.012) 1px, transparent 1px, transparent 3px); mix-blend-mode:overlay; }
 
-  .stack{border:1px solid var(--border);}
-  .stack-row{border-bottom:1px solid var(--border);padding:16px 18px;}
-  .stack-row:last-child{border-bottom:none;}
-  .stack-row .layer-id{
-    font-size:11px;color:var(--violet);letter-spacing:0.04em;margin-bottom:8px;display:block;
-  }
-  .chips{display:flex;flex-wrap:wrap;gap:8px;}
-  .chip{
-    font-size:12px;color:var(--text);border:1px solid var(--border-bright);
-    padding:4px 9px;background:var(--panel);
-  }
+/* ── CUSTOM CURSOR ────────────────────────────────────── */
+.js-cursor-on { cursor:auto; }
 
-  /* experience */
-  .timeline{border-left:1px solid var(--border);margin-left:6px;}
-  .tl-item{position:relative;padding:0 0 44px 32px;}
-  .tl-item:last-child{padding-bottom:0;}
-  .tl-item::before{
-    content:"";position:absolute;left:-5.5px;top:4px;
-    width:10px;height:10px;background:var(--bg);border:2px solid var(--cyan);
-  }
-  .tl-head{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:6px;}
-  .tl-role{font-family:'Space Grotesk';font-size:17px;font-weight:600;color:var(--text);}
-  .tl-org{color:var(--violet);font-size:13px;margin-top:2px;}
-  .tl-date{font-size:12px;color:var(--muted);white-space:nowrap;}
-  .tl-item ul{margin:12px 0 0;padding-left:18px;}
-  .tl-item li{font-size:14px;color:var(--muted);margin-bottom:8px;}
-  .tl-item li::marker{color:var(--amber);}
+/* ── NEON PULSE ON HOVER ──────────────────────────────── */
+.gc { transition: transform .35s var(--ease), box-shadow .35s var(--ease), border-color .35s; }
+.gc:hover { border-color: rgba(204,61,16,0.6); box-shadow: inset 0 1px 0 rgba(255,255,255,0.2), 0 0 0 1px rgba(204,61,16,0.2), 0 24px 64px rgba(0,0,0,0.8), 0 0 40px rgba(204,61,16,0.15); }
 
-  /* projects */
-  .proj-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);}
-  .proj{background:var(--bg);padding:28px;position:relative;}
-  .proj::before, .proj::after{content:"";position:absolute;width:10px;height:10px;border:1px solid var(--border-bright);opacity:0;transition:opacity .15s ease;}
-  .proj::before{top:8px;left:8px;border-right:none;border-bottom:none;}
-  .proj::after{bottom:8px;right:8px;border-left:none;border-top:none;}
-  .proj:hover::before, .proj:hover::after{opacity:1;border-color:var(--cyan);}
-  .proj h3{font-size:18px;margin-bottom:4px;}
-  .proj .role{font-size:12px;color:var(--violet);margin-bottom:14px;}
-  .proj p{font-size:13.5px;margin:0 0 14px;}
-  .proj .chips{margin-bottom:16px;}
-  .proj-stats{display:flex;gap:20px;flex-wrap:wrap;border-top:1px solid var(--border);padding-top:14px;}
-  .proj-stats div{font-size:11px;color:var(--muted);}
-  .proj-stats b{display:block;font-family:'Space Grotesk';font-size:16px;color:var(--amber);font-weight:600;}
-  @media (max-width:840px){.proj-grid{grid-template-columns:1fr;}}
+/* ── COUNTER GLOW ─────────────────────────────────────── */
+.hbc-n { text-shadow: 0 0 0 transparent; transition: text-shadow .4s; }
+.hbc:hover .hbc-n { text-shadow: 0 0 18px rgba(204,61,16,0.7); }
 
-  /* recognition */
-  .rec-grid{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);}
-  .rec-card{background:var(--bg);padding:26px;}
-  .rec-card h3{font-size:15px;margin-bottom:12px;color:var(--cyan);}
-  .rec-card p{font-size:13.5px;margin:0;}
-  .rec-card ul{margin:0;padding-left:16px;}
-  .rec-card li{font-size:13.5px;color:var(--muted);margin-bottom:8px;}
-  @media (max-width:900px){.rec-grid{grid-template-columns:1fr;}}
+/* ── MORSE LED ────────────────────────────────────────── */
+#morse-led-wrap { position:fixed; bottom:20px; right:20px; z-index:400; display:flex; align-items:center; gap:8px; font-family:var(--mono); font-size:8px; letter-spacing:.16em; text-transform:uppercase; color:rgba(255,255,255,.4); }
+#morse-led { width:8px; height:8px; border-radius:50%; background:#300; box-shadow:0 0 4px rgba(204,61,16,0.3); transition:background .05s, box-shadow .05s; }
+#morse-led.on { background:var(--acc); box-shadow:0 0 12px rgba(204,61,16,1), 0 0 24px rgba(204,61,16,0.6); }
 
-  /* education */
-  .edu-card{border:1px solid var(--border);padding:32px;display:flex;justify-content:space-between;gap:30px;flex-wrap:wrap;}
-  .edu-card h3{font-size:19px;margin-bottom:4px;}
-  .edu-card .org{color:var(--violet);font-size:13px;margin-bottom:16px;}
-  .edu-card .cgpa{text-align:right;}
-  .edu-card .cgpa .v{font-family:'Space Grotesk';font-size:30px;color:var(--cyan);font-weight:700;}
-  .edu-card .cgpa .l{font-size:11px;color:var(--muted);}
+/* ── TERMINAL EASTER EGG ──────────────────────────────── */
+#term-open-btn { position:fixed; bottom:20px; left:20px; z-index:400; padding:10px 16px; background:rgba(5,5,5,0.85); border:1px solid rgba(255,255,255,0.15); border-radius:6px; font-family:var(--mono); font-size:9px; letter-spacing:.16em; text-transform:uppercase; color:var(--ink); cursor:pointer; backdrop-filter:blur(10px); transition:all .25s; }
+#term-open-btn:hover { border-color:var(--acc); color:var(--acc); box-shadow:0 0 16px rgba(204,61,16,0.25); }
+#term-ui { position:fixed; top:50%; left:50%; transform:translate(-50%,-60%); width:min(520px,90vw); padding:24px; background:linear-gradient(135deg, rgba(20,20,20,0.97), rgba(5,5,5,0.97)); border:1px solid var(--acc); border-radius:8px; z-index:100000; font-family:var(--mono); box-shadow:0 0 80px rgba(204,61,16,0.35), inset 0 1px 0 rgba(204,61,16,0.4); transition:transform .25s, opacity .25s; backdrop-filter:blur(24px); opacity:1; }
+#term-ui.off { opacity:0; transform:translate(-50%,-80%); pointer-events:none; }
+#term-output { font-size:10px; color:rgba(255,255,255,0.55); margin-bottom:12px; line-height:1.8; min-height:40px; letter-spacing:.06em; white-space:pre-wrap; }
+#term-in { background:transparent; border:none; outline:none; color:var(--ink); font-family:var(--mono); width:100%; font-size:12px; letter-spacing:.06em; }
 
-  /* contact */
-  #contact{text-align:left;}
-  #contact h2{font-size:clamp(28px,4vw,42px);max-width:14ch;margin-bottom:20px;}
-  #contact p.lede{max-width:50ch;font-size:14.5px;margin-bottom:36px;}
-  .contact-links{display:flex;gap:0;flex-wrap:wrap;border:1px solid var(--border);}
-  .contact-links a{
-    flex:1;min-width:200px;text-decoration:none;padding:22px 22px;border-right:1px solid var(--border);
-    color:var(--text);transition:background .15s ease;
-  }
-  .contact-links a:last-child{border-right:none;}
-  .contact-links a:hover{background:var(--panel);}
-  .contact-links .k{display:block;font-size:11px;color:var(--muted);margin-bottom:6px;}
-  .contact-links .val{font-size:14px;color:var(--cyan);}
+/* ── GLITCH FLASH ON NAV CLICK ────────────────────────── */
+#glitch-flash { position:fixed; inset:0; z-index:500; pointer-events:none; background:var(--acc); opacity:0; mix-blend-mode:exclusion; }
 
-  footer{border-top:1px solid var(--border);padding:26px 28px;}
-  footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;font-size:12px;color:var(--muted);}
+@media (max-width:600px) {
+  #morse-led-wrap { display:none; }
+  #term-open-btn { bottom:16px; left:16px; padding:8px 12px; font-size:8px; }
+}
+.t3d.in { opacity:1; transform:translateY(0); }
+.t3d-d1 { transition-delay:0s; } .t3d-d2 { transition-delay:.08s; } .t3d-d3 { transition-delay:.16s; }
+
+nav { position:fixed; top:0; left:0; right:0; z-index:600; height:44px; display:flex; align-items:center; justify-content:space-between; padding:0 28px; background:rgba(5,5,5,.75); backdrop-filter:blur(30px) saturate(180%); -webkit-backdrop-filter:blur(30px) saturate(180%); border-bottom:2px solid var(--bd); }
+.nav-id { font-family:var(--mono); font-size:9px; letter-spacing:.2em; text-transform:uppercase; color:var(--ink); }
+.nav-links { display:flex; gap:24px; }
+.nav-links a { font-family:var(--mono); font-size:9px; letter-spacing:.18em; text-transform:uppercase; color:var(--ink); }
+.nav-status { display:flex; align-items:center; gap:7px; font-family:var(--mono); font-size:9px; letter-spacing:.18em; text-transform:uppercase; color:var(--ink); }
+.sdot { width:5px; height:5px; border-radius:50%; background:var(--acc); animation:blink 2s ease-in-out infinite; }
+@keyframes blink { 0%,100%{opacity:1}50%{opacity:.25} }
+
+.hero { padding-top:44px; border-bottom:2px solid var(--bd); overflow:hidden; display:flex; flex-direction:column; }
+.hero-top { padding:18px 28px 0; display:flex; justify-content:space-between; align-items:flex-start; }
+.hero-top-meta { display:flex; flex-direction:column; gap:3px; }
+.lbl { font-family:var(--mono); font-size:9px; letter-spacing:.18em; text-transform:uppercase; color:var(--ink); line-height:1.5; }
+.hero-name-wrap { padding:4vh 0; display:flex; align-items:center; overflow:hidden; }
+.h-line1 { font-family:var(--dsp); font-weight:400; font-size:clamp(72px,14vw,168px); line-height:.9; letter-spacing:-.05em; color:rgba(244,244,245,.13); padding-left:36px; }
+.h-line2 { font-family:var(--dsp); font-weight:800; font-size:clamp(72px,14vw,168px); line-height:.9; letter-spacing:-.05em; color:var(--ink); padding-left:36px; }
+.h-line2 .period { color:var(--acc); }
+.hero-bottom { border-top:2px solid var(--bd); display:grid; grid-template-columns:repeat(4,1fr); }
+.hbc { padding:16px 22px; border-right:2px solid var(--bd); display:flex; flex-direction:column; gap:4px; }
+.hbc:last-child { border-right:none; }
+.hbc-n { font-family:var(--dsp); font-weight:800; font-size:28px; letter-spacing:-.04em; line-height:1; color:var(--ink); }
+.hbc-l { font-family:var(--mono); font-size:8px; letter-spacing:.16em; text-transform:uppercase; color:rgba(255,255,255,0.85); line-height:1.5; }
+
+.mq { border-bottom:2px solid var(--bd); overflow:hidden; height:30px; display:flex; align-items:center; }
+.mq-t { display:flex; white-space:nowrap; animation:mq-scroll 22s linear infinite; }
+.mq-t span { font-family:var(--mono); font-size:8px; letter-spacing:.22em; text-transform:uppercase; color:var(--ink); padding:0 18px; }
+.mq-t span.ma { color:var(--acc); font-weight:700; }
+@keyframes mq-scroll { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+.sec { border-bottom:2px solid var(--bd); padding:48px 32px; position:relative; }
+.sec-aside { position:absolute; left:0; top:0; bottom:0; width:28px; border-right:2px solid var(--bd); display:flex; align-items:center; justify-content:center; overflow:hidden; }
+.sec-aside-t { font-family:var(--mono); font-size:7.5px; letter-spacing:.2em; text-transform:uppercase; color:var(--ink); white-space:nowrap; transform:rotate(-90deg); }
+.sec-pad { padding-left:36px; }
+.eyebrow { font-family:var(--mono); font-size:9px; letter-spacing:.22em; text-transform:uppercase; color:var(--ink); display:flex; align-items:center; gap:10px; margin-bottom:12px; }
+.eyebrow::after { content:''; width:32px; height:1px; background:var(--bd); }
+.sec-h { font-family:var(--dsp); font-weight:800; font-size:clamp(30px,4.5vw,54px); letter-spacing:-.05em; line-height:.95; color:var(--ink); }
+.sec-hd { display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:36px; gap:16px; flex-wrap:wrap; }
+.sec-num { font-family:var(--mono); font-size:9px; letter-spacing:.18em; color:var(--ink); padding-top:6px; }
+
+.about-grid { display:grid; grid-template-columns:1.2fr 1fr; gap:36px; align-items:start; }
+.copy p { font-size:14.5px; font-weight:400; color:var(--ink); line-height:1.75; }
+.copy p+p { margin-top:14px; }
+.copy b { color:var(--ink); font-weight:700; }
+.copy .coord { font-family:var(--mono); font-size:9px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink); display:block; margin-top:20px; }
+
+.skills-stack { display:flex; flex-direction:column; gap:4px; padding: 24px; }
+.skill-row { padding:14px 16px; border-radius:12px; transition:background .2s, transform .25s var(--ease); }
+.skill-row:hover { background: rgba(255,255,255,0.06); transform:translateX(6px); }
+.sk-label { font-family:var(--mono); font-size:8.5px; letter-spacing:.18em; text-transform:uppercase; color:var(--ink); margin-bottom:10px; }
+.sk-tags { display:flex; flex-wrap:wrap; gap:4px; }
+.st { font-family:var(--mono); font-size:9px; letter-spacing:.06em; text-transform:uppercase; padding:3px 9px; border:2px solid var(--bd); color:var(--ink); }
+.st-a { border-color:rgba(204,61,16,.3); color:var(--acc); }
+
+.exp-list { display:flex; flex-direction:column; }
+.exp-row { padding:32px; display:grid; grid-template-columns:120px 1fr 140px; gap:16px; margin-bottom: 24px; border-top:2px solid var(--bd); }
+.exp-idx { font-family:var(--mono); font-size:9px; letter-spacing:.18em; text-transform:uppercase; color:var(--ink); padding-top:3px; }
+.exp-main { padding:0 24px; }
+.exp-role { font-family:var(--dsp); font-weight:700; font-size:17px; letter-spacing:-.025em; color:var(--ink); margin-bottom:3px; }
+.exp-co { font-family:var(--mono); font-size:9px; letter-spacing:.16em; text-transform:uppercase; color:var(--acc); margin-bottom:12px; }
+.exp-pts { list-style:none; display:flex; flex-direction:column; gap:6px; }
+.exp-pts li { font-size:13.5px; font-weight:400; color:var(--ink); line-height:1.65; padding-left:14px; position:relative; }
+.exp-pts li::before { content:'—'; position:absolute; left:0; color:var(--bd); }
+.exp-pts li b { color:var(--ink); font-weight:700; }
+.exp-date { font-family:var(--mono); font-size:9px; letter-spacing:.1em; text-transform:uppercase; color:var(--ink); text-align:right; line-height:1.6; }
+
+.proj-list { display:flex; flex-direction:column; gap:16px; }
+.proj-item { padding:28px; display:grid; grid-template-columns:1fr 140px; gap:24px; align-items:start; }
+.proj-award-b { font-family:var(--mono); font-size:8px; letter-spacing:.2em; text-transform:uppercase; color:var(--acc); margin-bottom:10px; display:flex; align-items:center; gap:8px; }
+.proj-award-b::before { content:''; width:18px; height:1px; background:var(--acc); flex-shrink:0; }
+.proj-h { font-family:var(--dsp); font-weight:800; font-size:clamp(20px,2.5vw,26px); letter-spacing:-.04em; line-height:1.1; color:var(--ink); margin-bottom:10px; }
+.proj-desc { font-size:13.5px; font-weight:400; color:var(--ink); line-height:1.65; max-width:600px; }
+.proj-tech { display:flex; flex-wrap:wrap; gap:4px; margin-top:14px; }
+.proj-svg { display:block; width:100%; height:auto; margin-top:16px; border-radius:8px; border:1px solid rgba(255,255,255,0.06); }
+.pt { font-family:var(--mono); font-size:8px; letter-spacing:.12em; text-transform:uppercase; padding:2px 7px; border:2px solid var(--bd); color:var(--ink); }
+.proj-gh { font-family:var(--mono); font-size:8.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--ink); border-bottom:2px solid var(--bd); display:inline-block; margin-top:14px; }
+.proj-right { display:flex; flex-direction:column; align-items:flex-end; gap:14px; }
+.proj-stn { font-family:var(--dsp); font-weight:800; font-size:22px; letter-spacing:-.04em; line-height:1; color:var(--ink); text-align:right; }
+.proj-stl { font-family:var(--mono); font-size:8px; letter-spacing:.16em; text-transform:uppercase; color:var(--ink); margin-top:2px; text-align:right; }
+.proj-arr { font-family:var(--mono); font-size:14px; color:var(--ink); }
+
+.ach-row { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
+.ach-card { padding:32px 24px; }
+.ach-idx { font-family:var(--mono); font-size:8.5px; letter-spacing:.2em; text-transform:uppercase; color:var(--ink); margin-bottom:16px; }
+.ach-rank { font-family:var(--dsp); font-weight:800; font-size:44px; letter-spacing:-.06em; line-height:1; color:var(--ink); margin-bottom:10px; }
+.ach-name { font-family:var(--dsp); font-weight:700; font-size:15px; letter-spacing:-.02em; margin-bottom:6px; }
+.ach-sub { font-size:13px; color:var(--ink); line-height:1.6; }
+.ach-ev { font-family:var(--mono); font-size:8px; letter-spacing:.16em; text-transform:uppercase; color:var(--acc); margin-top:12px; }
+
+.edu-card { padding:32px 36px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:20px; }
+.edu-d { font-family:var(--mono); font-size:8.5px; letter-spacing:.2em; text-transform:uppercase; color:var(--ink); margin-bottom:8px; }
+.edu-u { font-family:var(--dsp); font-weight:800; font-size:20px; letter-spacing:-.03em; color:var(--ink); margin-bottom:4px; }
+.edu-l { font-family:var(--mono); font-size:9px; letter-spacing:.12em; text-transform:uppercase; color:var(--ink); }
+.edu-chips { display:flex; gap:6px; flex-wrap:wrap; align-items:center; }
+.edu-chip { font-family:var(--mono); font-size:8.5px; letter-spacing:.12em; text-transform:uppercase; padding:4px 11px; border:2px solid var(--bd); color:var(--ink); }
+.edu-yr { font-family:var(--dsp); font-weight:800; font-size:36px; letter-spacing:-.05em; line-height:1; color:rgba(244,244,245,.15); }
+
+.contact-h { font-family:var(--dsp); font-weight:800; font-size:clamp(36px,6vw,72px); letter-spacing:-.055em; line-height:.9; color:var(--ink); margin-bottom:24px; }
+.contact-h em { font-style:italic; color:var(--acc); }
+.contact-grid { display:grid; grid-template-columns:repeat(3,1fr); border-top:2px solid var(--bd); margin-top:32px; }
+.cg-cell { padding:18px 0; border-right:2px solid var(--bd); display:flex; flex-direction:column; gap:4px; }
+.cg-cell:last-child { border-right:none; }
+.cg-label { font-family:var(--mono); font-size:8px; letter-spacing:.2em; text-transform:uppercase; color:var(--ink); }
+.cg-val { font-family:var(--dsp); font-size:15px; font-weight:700; color:var(--acc); }
+
+footer { border-top:2px solid var(--bd); padding:16px 32px; display:flex; align-items:center; justify-content:space-between; background: #050505; }
+.ft-l { font-family:var(--mono); font-size:9px; letter-spacing:.18em; text-transform:uppercase; color:var(--ink); }
+.ft-r { display:flex; gap:22px; }
+.ft-r a { font-family:var(--mono); font-size:9px; letter-spacing:.16em; text-transform:uppercase; color:var(--ink); }
+
+@media(max-width:960px) {
+  .about-grid { grid-template-columns:1fr; gap:32px; }
+  .exp-row { grid-template-columns:1fr; gap:4px; }
+  .exp-date { text-align:left; }
+  .ach-row { grid-template-columns:1fr 1fr; gap:10px; }
+  .contact-grid { grid-template-columns:1fr; }
+  .proj-item { grid-template-columns:1fr; }
+  .proj-right { flex-direction:row; align-items:center; justify-content:flex-start; }
+  .proj-stn, .proj-stl { text-align:left; }
+}
+@media(max-width:600px) {
+  nav { padding:0 16px; }
+  .nav-links, .nav-status { display:none; }
+  .hero-top { padding:16px 16px 0; }
+  .hero-name-wrap { padding: 6vh 0 4vh; }
+  .h-line1, .h-line2 { font-size: clamp(46px, 15vw, 76px); padding-left: 16px; line-height: 0.95; }
+  .sec-aside { display:none; }
+  .sec-pad { padding-left:0; }
+  .sec { padding:36px 16px; }
+  .hero-bottom { grid-template-columns:1fr 1fr; }
+  .hbc { padding: 16px; }
+  .ach-row { grid-template-columns:1fr; }
+  .edu-card { padding: 24px 16px; flex-direction: column; align-items: flex-start; }
+  .proj-item { padding: 24px 16px; }
+  footer { flex-direction:column; gap:16px; align-items:flex-start; padding:24px 16px; }
+  .exp-idx { display:none; }
+  .exp-main { padding:0; }
+}
 </style>
+<meta property="og:title" content="Anish Shende — VLSI / RTL Design Engineer">
+<meta property="og:description" content="RTL-to-GDSII physical design, UVM verification, FPGA accelerators.">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%23050505'/><text y='50' x='50' font-family='monospace' font-size='60' fill='%23cc3d10' text-anchor='middle' dominant-baseline='central'>_</text></svg>">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Anish Anil Shende",
+  "jobTitle": "VLSI / RTL Design Engineer",
+  "sameAs": [
+    "https://github.com/aanishhhh",
+    "https://www.linkedin.com/in/anish-shende"
+  ]
+}
+</script>
 </head>
 <body>
 
-<div class="grid-bg"></div>
+<canvas id="circuit-bg" aria-hidden="true"></canvas>
 
-<header class="nav">
-  <div class="nav-inner">
-    <a class="brand" href="#top">
-      <span class="brand-mark">AS</span>
-      <span>
-        <span class="brand-name">Anish Shende</span><br>
-        <span class="brand-sub">VLSI Engineer</span>
-      </span>
-    </a>
-    <nav class="links" id="navLinks">
-      <a href="#about">About</a>
-      <a href="#experience">Experience</a>
-      <a href="#projects">Projects</a>
-      <a href="#education">Education</a>
-      <a class="nav-cta" href="#contact">Contact</a>
-    </nav>
-    <button class="burger" id="burger" aria-label="Toggle menu">☰</button>
+<div id="morse-led-wrap"><div id="morse-led"></div><span>SIGNAL // ⟶ ?</span></div>
+<div id="term-open-btn" role="button" aria-label="Open terminal">[ TERMINAL ]</div>
+<div id="term-ui" class="off">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+    <span style="font-size:10px;color:var(--acc);letter-spacing:.15em;">ROOT@ANISHSHENDE:~$</span>
+    <span id="term-close" style="font-size:10px;color:rgba(255,255,255,0.4);cursor:pointer;letter-spacing:.1em;">[ESC] CLOSE</span>
   </div>
-</header>
+  <div id="term-output">TYPE A COMMAND. TRY: help</div>
+  <div style="display:flex;align-items:center;border-top:1px solid rgba(255,255,255,0.1);padding-top:12px;">
+    <span style="color:var(--acc);margin-right:10px;font-size:12px;">►</span>
+    <input type="text" id="term-in" autocomplete="off" placeholder="whoami">
+  </div>
+</div>
 
-<main id="top">
+<div id="boot-seq"><div id="boot-txt"></div></div>
 
-  <section class="hero" style="border-top:none;">
-    <div class="hero-copy">
-      <div class="eyebrow">vlsi.engineer / b.tech · vit chennai</div>
-      <h1>Anish Anil Shende</h1>
-      <div class="hero-flow">RTL <b>→</b> Verification <b>→</b> GDSII</div>
-      <p class="lede">
-        I take digital designs from architecture to silicon — writing RTL, verifying it against
-        spec with UVM and formal methods, then carrying it through the physical design flow to a
-        clean, sign-off-ready GDSII.
-      </p>
-      <div class="hero-actions">
-        <a class="btn btn-primary" href="#contact">Get in touch</a>
-        <a class="btn" href="Anish_Shende_Resume.pdf" download>Download résumé</a>
+<!-- ── NAV ────────────────────────────────────────────── -->
+<nav>
+  <div class="nav-id">ARCHIVE / <b>ANISH SHENDE</b> / SYS.001</div>
+  <div class="nav-links">
+    <a href="#about">About</a>
+    <a href="#exp">Experience</a>
+    <a href="#projects">Projects</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <div class="nav-status"><div class="sdot"></div>Status: Open to Work</div>
+</nav>
+
+<!-- ── HERO ───────────────────────────────────────────── -->
+<section class="hero">
+  <div class="hero-top">
+    <div class="hero-top-meta">
+      <span class="lbl">Archive Folder [ Anish Shende ]</span>
+      <span class="lbl" style="font-weight:700; color:var(--acc);">RTL. Verification. Silicon, end to end.</span>
+      <span class="lbl" style="margin-top:2px;">STATUS: DRC/LVS CLEAN &middot; TIMING SIGNED OFF</span>
+    </div>
+  </div>
+
+  <div class="hero-name-wrap">
+    <div style="position:relative;width:100%;height:100%;display:flex;align-items:center;">
+      <div style="position:absolute;left:0;top:0;bottom:0;width:28px;display:flex;align-items:center;justify-content:center;overflow:hidden;z-index:5;"><div style="position:absolute;right:0;top:0;bottom:0;width:1px;background:var(--bd);"></div><span style="font-family:var(--mono);font-size:7.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink);white-space:nowrap;transform:rotate(-90deg);display:block;">VLSI Engineer / LOG&nbsp;[01] / RTL / Verification / PD</span></div>
+      <div style="flex:1;padding:0 32px 0 44px;">
+        <div class="h-line1 glitch" data-text="ANISH">ANISH</div>
+        <div class="h-line2 glitch" data-text="SHENDE.">SHENDE<span class="period">.</span></div>
       </div>
-      <div class="hero-loc">Based in <span>Chennai, India</span> — open to RTL, DV &amp; physical design roles</div>
-    </div>
-
-    <div class="hero-visual" aria-hidden="true">
-      <svg viewBox="0 0 480 380" xmlns="http://www.w3.org/2000/svg">
-        <!-- rulers -->
-        <g stroke="#1e2a35" stroke-width="1">
-          <line x1="30" y1="10" x2="30" y2="360"/>
-          <line x1="10" y1="30" x2="460" y2="30"/>
-        </g>
-        <g fill="#5a6b7a" font-family="IBM Plex Mono" font-size="9">
-          <text x="6" y="70">80</text>
-          <text x="6" y="160">40</text>
-          <text x="6" y="250">20</text>
-          <text x="60" y="22">10</text>
-          <text x="220" y="22">40</text>
-          <text x="380" y="22">70</text>
-        </g>
-        <!-- die outline -->
-        <rect x="50" y="46" width="410" height="300" fill="none" stroke="#324458" stroke-width="1.5" stroke-dasharray="4 3"/>
-
-        <!-- blocks -->
-        <rect x="80" y="80" width="120" height="70" fill="#101820" stroke="#5fd3c4" stroke-width="1.5"/>
-        <text x="98" y="120" fill="#5fd3c4" font-family="IBM Plex Mono" font-size="13" font-weight="600">RTL</text>
-
-        <rect x="270" y="70" width="150" height="80" fill="#101820" stroke="#a48cf2" stroke-width="1.5"/>
-        <text x="300" y="115" fill="#a48cf2" font-family="IBM Plex Mono" font-size="13" font-weight="600">UVM / DV</text>
-
-        <rect x="110" y="220" width="260" height="90" fill="#101820" stroke="#eab054" stroke-width="1.5"/>
-        <text x="200" y="270" fill="#eab054" font-family="IBM Plex Mono" font-size="13" font-weight="600">P&amp;R → GDSII</text>
-
-        <!-- routing traces -->
-        <path d="M200 115 H250 V110 H270" fill="none" stroke="#5fd3c4" stroke-width="1.5"/>
-        <path d="M345 150 V190 H240 V220" fill="none" stroke="#a48cf2" stroke-width="1.5"/>
-        <path d="M140 150 V220" fill="none" stroke="#5fd3c4" stroke-width="1.5"/>
-
-        <!-- vias -->
-        <circle cx="270" cy="110" r="3" fill="#eab054"/>
-        <circle cx="240" cy="220" r="3" fill="#eab054"/>
-        <circle cx="140" cy="220" r="3" fill="#eab054"/>
-
-        <!-- filler cell texture -->
-        <g stroke="#1e2a35" stroke-width="1">
-          <line x1="380" y1="220" x2="380" y2="310"/>
-          <line x1="330" y1="220" x2="330" y2="310"/>
-        </g>
-      </svg>
-    </div>
-  </section>
-
-  <div class="marquee-wrap">
-    <div class="marquee">
-      <span><b>Verilog</b></span><span><b>SystemVerilog</b></span><span><b>UVM</b></span>
-      <span><b>SVA</b></span><span><b>RTL-to-GDSII</b></span><span><b>STA</b></span>
-      <span><b>Cadence Innovus</b></span><span><b>Synopsys DC</b></span><span><b>OpenROAD</b></span>
-      <span><b>Formal Verification</b></span><span><b>DRC / LVS</b></span><span><b>Low-Power Design</b></span>
-      <span><b>Verilog</b></span><span><b>SystemVerilog</b></span><span><b>UVM</b></span>
-      <span><b>SVA</b></span><span><b>RTL-to-GDSII</b></span><span><b>STA</b></span>
-      <span><b>Cadence Innovus</b></span><span><b>Synopsys DC</b></span><span><b>OpenROAD</b></span>
-      <span><b>Formal Verification</b></span><span><b>DRC / LVS</b></span><span><b>Low-Power Design</b></span>
     </div>
   </div>
 
-  <div class="stats">
-    <div class="stat"><div class="v">Zero</div><div class="l">DRC / LVS violations at GDSII sign-off</div></div>
-    <div class="stat"><div class="v">54.4K µm²</div><div class="l">die area, SparseFlow accelerator</div></div>
-    <div class="stat"><div class="v">20.9K</div><div class="l">cells synthesized, Nangate 45nm</div></div>
-    <div class="stat"><div class="v">3 / 3</div><div class="l">formal properties proven, SymbiYosys</div></div>
+  <div class="hero-bottom">
+    <div class="hbc"><div class="hbc-n" data-count="8.14" data-suffix="">0</div><div class="hbc-l">CGPA / 10.0<br>VIT Chennai</div></div>
+    <div class="hbc"><div class="hbc-n" data-count="0" data-suffix="">0</div><div class="hbc-l">DRC / LVS violations<br>SparseFlow GDSII</div></div>
+    <div class="hbc"><div class="hbc-n" data-count="3" data-suffix="">0</div><div class="hbc-l">Industry internships<br>Owens Corning / Maven / Edge Synapse</div></div>
+    <div class="hbc"><div class="hbc-n" data-count="4" data-suffix="">0</div><div class="hbc-l">Full-stack RTL projects<br>RTL → Verify → PD</div></div>
   </div>
+</section>
 
-  <section id="about">
-    <div class="head"><span class="tag">/about</span><h2>Working across the full chip lifecycle</h2></div>
+<!-- ── MARQUEE ─────────────────────────────────────────── -->
+<div class="mq">
+  <div class="mq-t">
+    <span>RTL Design</span><span>—</span><span>SystemVerilog</span><span>—</span><span class="ma">UVM</span><span>—</span><span>AXI4</span><span>—</span><span>Formal Verification</span><span>—</span><span>RTL-to-GDSII</span><span>—</span><span class="ma">DRC / LVS Clean</span><span>—</span><span>Static Timing Analysis</span><span>—</span><span class="fpga">Zynq UltraScale+</span><span>—</span><span>OpenROAD / Yosys</span><span>—</span><span class="fpga">LUTs · BRAM · DSP Slices</span><span>—</span><span>Vivado</span><span>—</span><span class="fpga">XDC Constraints</span><span>—</span><span>Place &amp; Route</span><span>—</span><span class="fpga">Bitstream Gen</span><span>—</span><span>Clock Domain Crossing</span><span>—</span>
+    <span>RTL Design</span><span>—</span><span>SystemVerilog</span><span>—</span><span class="ma">UVM</span><span>—</span><span>AXI4</span><span>—</span><span>Formal Verification</span><span>—</span><span>RTL-to-GDSII</span><span>—</span><span class="ma">DRC / LVS Clean</span><span>—</span><span>Static Timing Analysis</span><span>—</span><span class="fpga">Zynq UltraScale+</span><span>—</span><span>OpenROAD / Yosys</span><span>—</span><span class="fpga">LUTs · BRAM · DSP Slices</span><span>—</span><span>Vivado</span><span>—</span><span class="fpga">XDC Constraints</span><span>—</span><span>Place &amp; Route</span><span>—</span><span class="fpga">Bitstream Gen</span><span>—</span><span>Clock Domain Crossing</span><span>—</span>
+  </div>
+</div>
+
+<!-- ── ABOUT & SKILLS ─────────────────────────────────── -->
+<section class="sec" id="about">
+  <div class="sec-aside"><span class="sec-aside-t">About / Skills</span></div>
+  <div class="sec-pad">
+    <div class="sec-hd t3d t3d-d1">
+      <div><div class="eyebrow">Section 01 / 05</div><h2 class="sec-h glitch" data-text="Silicon meets systems thinking">Silicon meets<br>systems thinking</h2></div>
+      <div class="sec-num">001</div>
+    </div>
     <div class="about-grid">
+      <div class="copy">
+        <p><b>B.Tech Electronics Engineering (VLSI Design and Technology) student at VIT Chennai</b> (2023–2027, CGPA 8.14/10). Working across the full chip design lifecycle — RTL microarchitecture, functional/formal verification with UVM and SystemVerilog, and ASIC physical design (RTL-to-GDSII).</p>
+        <p>Hands-on with hardware accelerators, FPGA prototyping, and independent end-to-end project ownership — from a sparsity-aware neural network accelerator carried through synthesis and place-and-route to a DRC-clean GDSII, to a parameterized AMBA AXI4 UVM verification environment.</p>
+        <p>Also active in <b>VIT's Finance and Management (FAM) Club</b>, having progressed from Club Member to Operations Director to Advisory.</p>
+        <span class="coord">Location · <b>Chennai, India</b></span>
+      </div>
+      <div class="skills-stack gc">
+        <div class="skill-row"><div class="sk-label">HDL &amp; Verification</div><div class="sk-tags"><span class="st st-a">SystemVerilog</span><span class="st st-a">Verilog</span><span class="st st-a">UVM</span><span class="st st-a">SVA</span><span class="st">Functional Coverage</span><span class="st">Formal Verification</span></div></div>
+        <div class="skill-row"><div class="sk-label">Physical Design</div><div class="sk-tags"><span class="st st-a">RTL-to-GDSII</span><span class="st st-a">Floorplanning</span><span class="st">CTS</span><span class="st">STA (MMMC)</span><span class="st">DRC / LVS</span><span class="st">ECO</span></div></div>
+        <div class="skill-row"><div class="sk-label">Protocols</div><div class="sk-tags"><span class="st st-a">AXI4</span><span class="st">AXI4-Lite</span><span class="st">SPI</span><span class="st">I2C</span></div></div>
+        <div class="skill-row"><div class="sk-label">FPGA / SoC</div><div class="sk-tags"><span class="st st-a">Zynq UltraScale+ MPSoC</span><span class="st">LUTs</span><span class="st">BRAM</span><span class="st">DSP Slices</span><span class="st">XDC Constraints</span><span class="st">Place &amp; Route</span><span class="st">Bitstream</span></div></div>
+        <div class="skill-row"><div class="sk-label">Tools</div><div class="sk-tags"><span class="st">Cadence Genus/Innovus/Virtuoso/Tempus</span><span class="st">Synopsys DC/ICC2/PrimeTime</span><span class="st">QFLOW</span><span class="st">Yosys</span><span class="st">OpenROAD</span><span class="st">Magic / Netgen</span></div></div>
+        <div class="skill-row"><div class="sk-label">Sim &amp; Prog</div><div class="sk-tags"><span class="st">ModelSim</span><span class="st">QuestaSim</span><span class="st">VCS</span><span class="st">Vivado</span><span class="st">Python</span><span class="st">C / C++</span><span class="st">Embedded C</span><span class="st">TCL</span></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── EXPERIENCE ──────────────────────────────────────── -->
+<section class="sec" id="exp">
+  <div class="sec-aside"><span class="sec-aside-t">Experience</span></div>
+  <div class="sec-pad">
+    <div class="sec-hd t3d t3d-d1">
+      <div><div class="eyebrow">Section 02 / 05</div><h2 class="sec-h glitch" data-text="Where I've built real hardware">Where I've built<br>real hardware</h2></div>
+      <div class="sec-num">002</div>
+    </div>
+    <div class="exp-list">
+      <div class="exp-row gc t3d t3d-d2">
+        <div class="exp-idx">EXP.01</div>
+        <div class="exp-main">
+          <div class="exp-role">Hardware Design Intern</div>
+          <div class="exp-co">Owens Corning · Summer 2026</div>
+          <ul class="exp-pts">
+            <li>Worked on hardware design initiatives for <b>robotics and automation</b>, programming and integrating multiple Yaskawa industrial robotic arms.</li>
+            <li>Interfaced with <b>PLC-based control systems</b> for automation sequencing and I/O configuration, reducing manual setup steps.</li>
+          </ul>
+        </div>
+        <div class="exp-date">Summer 2026</div>
+      </div>
+      <div class="exp-row gc t3d t3d-d3">
+        <div class="exp-idx">EXP.02</div>
+        <div class="exp-main">
+          <div class="exp-role">Physical Design Intern</div>
+          <div class="exp-co">Maven Silicon · SPI using QFLOW</div>
+          <ul class="exp-pts">
+            <li>Executed the complete <b>RTL-to-GDSII flow</b> — synthesis, floorplanning, placement, CTS, routing, and sign-off — using QFLOW, improving post-CTS timing (WNS/TNS) via OpenSTA.</li>
+            <li>Completed physical sign-off via <b>DRC and LVS verification</b> using Magic and Netgen, delivering a clean GDSII with zero DRC/LVS violations.</li>
+          </ul>
+        </div>
+        <div class="exp-date">2026</div>
+      </div>
+      <div class="exp-row gc t3d t3d-d1">
+        <div class="exp-idx">EXP.03</div>
+        <div class="exp-main">
+          <div class="exp-role">SNN–DDS Integration Intern</div>
+          <div class="exp-co">Edge Synapse · Neuromorphic AI Edge Accelerator on FPGA</div>
+          <ul class="exp-pts">
+            <li>Designed hardware <b>Spiking Neural Network (SNN)</b> architectures using LIF neuron models and developed multi-layer SNN modules in Verilog integrated with DDS IP.</li>
+            <li>Verified and deployed the design on <b>Zynq UltraScale+ MPSoC</b> FPGA fabric using Vivado, mapping SNN datapaths onto LUTs/BRAM/DSP slices and achieving stable real-time operation post-bitstream generation.</li>
+          </ul>
+        </div>
+        <div class="exp-date">2026</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── PROJECTS ────────────────────────────────────────── -->
+<section class="sec" id="projects">
+  <div class="sec-aside"><span class="sec-aside-t">Projects</span></div>
+  <div class="sec-pad">
+    <div class="sec-hd t3d t3d-d1">
+      <div><div class="eyebrow">Section 03 / 05</div><h2 class="sec-h glitch" data-text="Hardware that ships end to end">Hardware that<br>ships end to end</h2></div>
+      <div class="sec-num">003</div>
+    </div>
+    <p style="font-family:var(--mono); font-size:11px; letter-spacing:0.06em; color:rgba(255,255,255,0.5); line-height:1.8; max-width:680px; margin-bottom:40px; text-transform:uppercase;">Design the RTL. Verify it. Carry it to a manufacturable layout. Each project below spans the full chip design lifecycle rather than stopping at simulation.</p>
+
+    <div class="proj-list">
+      <div class="proj-item gc t3d t3d-d2">
+        <div class="proj-award-b">RTL &middot; UVM &amp; Formal Verification &middot; Physical Design</div>
+        <div>
+          <div class="proj-h">SparseFlow — Sparsity-Aware NN Hardware Accelerator</div>
+          <div class="proj-desc">Architected and implemented in RTL a hardware accelerator exploiting weight sparsity via a 64-bit zero-detection bitmap to clock-gate MAC cells. Verified via directed simulation, a full UVM environment, and SymbiYosys formal verification (three proven correctness properties). Synthesized to a DRC-clean GDSII (Yosys/OpenROAD, Nangate 45nm, ~20,917 cells, ~54,436 µm²).</div>
+          <svg class="proj-svg" viewBox="0 0 560 150" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="SparseFlow bitmap-gated MAC array diagram">
+            <rect x="0" y="0" width="560" height="150" fill="rgba(255,255,255,0.02)" rx="8"/>
+            <text x="14" y="20" font-family="monospace" font-size="9" fill="rgba(255,255,255,.4)" letter-spacing="1">64-BIT ZERO-DETECT BITMAP → MAC CLOCK-GATE</text>
+            <g font-family="monospace" font-size="8" fill="rgba(255,255,255,.3)">
+              <rect x="14" y="30" width="220" height="14" fill="none" stroke="rgba(74,158,255,.4)"/>
+              <text x="20" y="40">1 0 1 1 0 0 1 0 1 1 0 1 0 0 1 1</text>
+            </g>
+            <g>
+              <line x1="70" y1="44" x2="70" y2="70" stroke="rgba(74,158,255,.4)"/>
+              <line x1="120" y1="44" x2="120" y2="70" stroke="rgba(74,158,255,.15)"/>
+              <line x1="170" y1="44" x2="170" y2="70" stroke="rgba(74,158,255,.4)"/>
+              <line x1="220" y1="44" x2="220" y2="70" stroke="rgba(74,158,255,.4)"/>
+            </g>
+            <g id="mac-grid"></g>
+            <g>
+              <!-- static MAC grid -->
+              <g fill="none" stroke="rgba(204,61,16,.5)">
+                <rect x="40" y="74" width="40" height="26" rx="3"/><rect x="90" y="74" width="40" height="26" rx="3" opacity=".15"/><rect x="140" y="74" width="40" height="26" rx="3"/><rect x="190" y="74" width="40" height="26" rx="3"/><rect x="240" y="74" width="40" height="26" rx="3" opacity=".15"/><rect x="290" y="74" width="40" height="26" rx="3"/>
+                <rect x="40" y="108" width="40" height="26" rx="3" opacity=".15"/><rect x="90" y="108" width="40" height="26" rx="3"/><rect x="140" y="108" width="40" height="26" rx="3"/><rect x="190" y="108" width="40" height="26" rx="3" opacity=".15"/><rect x="240" y="108" width="40" height="26" rx="3"/><rect x="290" y="108" width="40" height="26" rx="3"/>
+              </g>
+              <text x="345" y="90" font-family="monospace" font-size="8" fill="rgba(255,255,255,.35)">MAC ARRAY</text>
+              <text x="345" y="102" font-family="monospace" font-size="8" fill="rgba(255,255,255,.35)">solid = active</text>
+              <text x="345" y="114" font-family="monospace" font-size="8" fill="rgba(255,255,255,.35)">faint = gated</text>
+              <text x="345" y="130" font-family="monospace" font-size="8" fill="rgba(255,255,255,.35)">(weight = 0)</text>
+            </g>
+          </svg>
+          <div class="proj-tech"><span class="pt">SystemVerilog</span><span class="pt">UVM</span><span class="pt">SymbiYosys</span><span class="pt">Yosys / OpenROAD</span><span class="pt">Nangate 45nm</span></div>
+        </div>
+        <div class="proj-right">
+          <div><div class="proj-stn">0</div><div class="proj-stl">DRC/LVS violations</div></div>
+          <div><div class="proj-stn">54,436 µm²</div><div class="proj-stl">GDSII die area</div></div>
+        </div>
+      </div>
+
+      <div class="proj-item gc t3d t3d-d1">
+        <div class="proj-award-b">SystemVerilog &middot; UVM &middot; AXI4 Protocol</div>
+        <div>
+          <div class="proj-h">AMBA AXI4 UVM Verification IP</div>
+          <div class="proj-desc">Built a parameterized AMBA AXI4 UVM Verification IP with a master agent (driver, monitor, sequencer), a passive slave-side monitor, a scoreboard with a golden reference memory model, and a functional coverage model, verifying a self-checking RTL slave DUT. Extensible to multi-master/multi-slave topologies.</div>
+          <svg class="proj-svg" viewBox="0 0 560 140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="AXI4 write handshake waveform diagram">
+            <rect x="0" y="0" width="560" height="140" fill="rgba(255,255,255,0.02)" rx="8"/>
+            <text x="14" y="18" font-family="monospace" font-size="9" fill="rgba(255,255,255,.4)" letter-spacing="1">AXI4 WRITE HANDSHAKE // VALID-READY</text>
+            <g font-family="monospace" font-size="9" fill="rgba(255,255,255,.4)">
+              <text x="14" y="46">ACLK</text>
+              <text x="14" y="72">AWVALID</text>
+              <text x="14" y="98">AWREADY</text>
+              <text x="14" y="124">WDATA</text>
+            </g>
+            <g stroke="rgba(255,255,255,.3)" fill="none" stroke-width="1.4">
+              <path d="M100 40 h20 v-10 h20 v10 h20 v-10 h20 v10 h20 v-10 h20 v10 h20 v-10 h20 v10 h20 v-10 h20 v10 h20 v-10 h20 v10"/>
+            </g>
+            <g stroke="#4a9eff" fill="none" stroke-width="1.6">
+              <path d="M100 72 h60 v-14 h300 v14 h20"/>
+            </g>
+            <g stroke="var(--acc)" fill="none" stroke-width="1.6">
+              <path d="M100 98 h140 v-14 h220 v14 h20"/>
+            </g>
+            <g stroke="rgba(255,255,255,.35)" fill="none" stroke-width="1.6" stroke-dasharray="3 3">
+              <path d="M100 124 h140 v-14 h220 v14 h20"/>
+            </g>
+            <text x="260" y="72" font-family="monospace" font-size="7" fill="#4a9eff">master asserts</text>
+            <text x="330" y="98" font-family="monospace" font-size="7" fill="var(--acc)">slave accepts</text>
+          </svg>
+          <div class="proj-tech"><span class="pt">SystemVerilog</span><span class="pt">UVM</span><span class="pt">AXI4</span><span class="pt">Functional Coverage</span></div>
+        </div>
+        <div class="proj-right">
+          <div><div class="proj-stn">32/64/4</div><div class="proj-stl">Addr/Data/ID bits</div></div>
+        </div>
+      </div>
+
+      <div class="proj-item gc t3d t3d-d2">
+        <div class="proj-award-b">DSP &middot; RTL Design &middot; Pipelined &amp; Folded Architecture</div>
+        <div>
+          <div class="proj-h">3×3 Box Filter — DSP &amp; VLSI Implementation</div>
+          <div class="proj-desc">Implemented a 3×3 moving average filter for image processing in Python (NumPy, OpenCV) and Verilog RTL. Designed a 3-stage pipelined architecture in Xilinx Vivado achieving 1 output/cycle, plus a folded variant for area reduction via adder reuse. Published an IEEE-format report analyzing the pipelining vs. folding trade-off.</div>
+          <svg class="proj-svg" viewBox="0 0 560 150" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="3x3 box filter convolution kernel diagram">
+            <rect x="0" y="0" width="560" height="150" fill="rgba(255,255,255,0.02)" rx="8"/>
+            <text x="14" y="18" font-family="monospace" font-size="9" fill="rgba(255,255,255,.4)" letter-spacing="1">3×3 KERNEL SLIDING OVER IMAGE PLANE</text>
+            <g>
+              <!-- image grid -->
+              <g stroke="rgba(255,255,255,.12)" fill="rgba(255,255,255,.02)">
+                <rect x="30" y="30" width="196" height="98"/>
+              </g>
+              <g stroke="rgba(255,255,255,.08)">
+                <line x1="30" y1="52" x2="226" y2="52"/><line x1="30" y1="74" x2="226" y2="74"/><line x1="30" y1="96" x2="226" y2="96"/><line x1="30" y1="118" x2="226" y2="118"/>
+                <line x1="52" y1="30" x2="52" y2="128"/><line x1="74" y1="30" x2="74" y2="128"/><line x1="96" y1="30" x2="96" y2="128"/><line x1="118" y1="30" x2="118" y2="128"/><line x1="140" y1="30" x2="140" y2="128"/><line x1="162" y1="30" x2="162" y2="128"/><line x1="184" y1="30" x2="184" y2="128"/><line x1="206" y1="30" x2="206" y2="128"/>
+              </g>
+              <rect x="74" y="52" width="66" height="66" fill="none" stroke="var(--acc)" stroke-width="2"/>
+            </g>
+            <g transform="translate(280,30)">
+              <text x="0" y="0" font-family="monospace" font-size="8" fill="rgba(255,255,255,.35)">KERNEL (1/9 avg)</text>
+              <g stroke="rgba(255,255,255,.2)" fill="rgba(255,255,255,.03)">
+                <rect x="0" y="10" width="90" height="90"/>
+                <line x1="0" y1="40" x2="90" y2="40"/><line x1="0" y1="70" x2="90" y2="70"/>
+                <line x1="30" y1="10" x2="30" y2="100"/><line x1="60" y1="10" x2="60" y2="100"/>
+              </g>
+              <g font-family="monospace" font-size="9" fill="#4a9eff" text-anchor="middle">
+                <text x="15" y="30">1</text><text x="45" y="30">1</text><text x="75" y="30">1</text>
+                <text x="15" y="60">1</text><text x="45" y="60">1</text><text x="75" y="60">1</text>
+                <text x="15" y="90">1</text><text x="45" y="90">1</text><text x="75" y="90">1</text>
+              </g>
+            </g>
+            <g transform="translate(410,60)" font-family="monospace" font-size="8" fill="rgba(255,255,255,.4)">
+              <text x="0" y="0">pipelined:</text>
+              <text x="0" y="14" fill="var(--acc)">1 output / cycle</text>
+              <text x="0" y="34">folded:</text>
+              <text x="0" y="48" fill="#4a9eff">adder reuse, ↓area</text>
+            </g>
+          </svg>
+          <div class="proj-tech"><span class="pt">Verilog</span><span class="pt">Xilinx Vivado</span><span class="pt">Python / OpenCV</span></div>
+        </div>
+        <div class="proj-right">
+          <div><div class="proj-stn">1/cyc</div><div class="proj-stl">Output throughput</div></div>
+        </div>
+      </div>
+
+      <div class="proj-item gc t3d t3d-d3">
+        <div class="proj-award-b">Embedded C &middot; Raspberry Pi Pico &middot; I2C / GPIO</div>
+        <div>
+          <div class="proj-h">Handheld Multi-Game Embedded System</div>
+          <div class="proj-desc">Developed a handheld multi-game embedded system with graphics rendering on a 128×64 SSD1306 OLED over I2C and GPIO-based button controls, optimized for real-time gameplay on a Raspberry Pi Pico.</div>
+          <svg class="proj-svg" viewBox="0 0 560 150" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Handheld device with OLED screen and D-pad sketch">
+            <rect x="0" y="0" width="560" height="150" fill="rgba(255,255,255,0.02)" rx="8"/>
+            <text x="14" y="18" font-family="monospace" font-size="9" fill="rgba(255,255,255,.4)" letter-spacing="1">RASPBERRY PI PICO + SSD1306 128×64 OLED</text>
+            <g transform="translate(200,30)">
+              <rect x="0" y="0" width="160" height="100" rx="10" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.2)"/>
+              <rect x="16" y="14" width="128" height="46" fill="#050505" stroke="var(--acc)" stroke-width="1.5"/>
+              <g fill="#4a9eff">
+                <rect x="24" y="24" width="4" height="4"/><rect x="32" y="20" width="4" height="4"/><rect x="40" y="30" width="4" height="4"/><rect x="48" y="36" width="4" height="4"/><rect x="56" y="24" width="4" height="4"/><rect x="64" y="40" width="4" height="4"/><rect x="72" y="22" width="4" height="4"/><rect x="80" y="34" width="4" height="4"/><rect x="88" y="28" width="4" height="4"/><rect x="96" y="44" width="4" height="4"/><rect x="104" y="26" width="4" height="4"/><rect x="112" y="38" width="4" height="4"/><rect x="120" y="24" width="4" height="4"/>
+              </g>
+              <text x="80" y="42" font-family="monospace" font-size="7" fill="rgba(255,255,255,.5)" text-anchor="middle">128×64 I2C</text>
+              <!-- d-pad -->
+              <g fill="rgba(255,255,255,.15)" stroke="rgba(255,255,255,.3)">
+                <rect x="20" y="72" width="12" height="12"/><rect x="20" y="60" width="12" height="12"/><rect x="20" y="84" width="12" height="12"/><rect x="8" y="72" width="12" height="12"/><rect x="32" y="72" width="12" height="12"/>
+              </g>
+              <!-- buttons -->
+              <circle cx="128" cy="76" r="7" fill="rgba(204,61,16,.4)" stroke="var(--acc)"/>
+              <circle cx="112" cy="86" r="7" fill="rgba(74,158,255,.3)" stroke="#4a9eff"/>
+            </g>
+            <g transform="translate(30,50)" font-family="monospace" font-size="8" fill="rgba(255,255,255,.4)">
+              <text x="0" y="0">GPIO buttons</text>
+              <text x="0" y="16">↓</text>
+              <text x="0" y="32">I2C bus</text>
+              <text x="0" y="48">↓</text>
+              <text x="0" y="64">OLED render</text>
+              <text x="0" y="80">loop</text>
+            </g>
+          </svg>
+          <div class="proj-tech"><span class="pt">Embedded C</span><span class="pt">Raspberry Pi Pico</span><span class="pt">I2C</span><span class="pt">SSD1306 OLED</span></div>
+        </div>
+        <div class="proj-right">
+          <div><div class="proj-stn">128×64</div><div class="proj-stl">OLED display</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── ACHIEVEMENTS ────────────────────────────────────── -->
+<section class="sec" id="achievements">
+  <div class="sec-aside"><span class="sec-aside-t">Recognition</span></div>
+  <div class="sec-pad">
+    <div class="sec-hd t3d t3d-d1">
+      <div><div class="eyebrow">Section 04 / 05</div><h2 class="sec-h glitch" data-text="Building at the edge">Building at<br>the edge</h2></div>
+      <div class="sec-num">004</div>
+    </div>
+    <div class="ach-row">
+      <div class="ach-card gc t3d t3d-d2">
+        <div class="ach-idx">ACH.01 / Hackathon</div>
+        <div class="ach-rank">AI</div>
+        <div class="ach-name">RoboAOI — Physical AI Track</div>
+        <div class="ach-sub">Built solo: an AI-powered robotic inspection and defect-sorting system for PCB/semiconductor manufacturing, with YOLO11 defect detection and a robotic arm in the Genesis simulator.</div>
+        <div class="ach-ev">AMD AI DevMaster 2026</div>
+      </div>
+      <div class="ach-card gc t3d t3d-d3">
+        <div class="ach-idx">ACH.02 / Certifications</div>
+        <div class="ach-rank">2</div>
+        <div class="ach-name">Cadence Academic Curricula</div>
+        <div class="ach-sub">Digital Design and Signoff, and Digital Design and Verification — Cadence Academic Curriculum v1.0.</div>
+        <div class="ach-ev">Cadence · Student Ambassador</div>
+      </div>
+      <div class="ach-card gc t3d t3d-d4">
+        <div class="ach-idx">ACH.03 / Leadership</div>
+        <div class="ach-rank">2yr</div>
+        <div class="ach-name">FAM Club — Member to Advisory</div>
+        <div class="ach-sub">Progressed from Club Member to Operations Director to Advisory, owning club operations end-to-end.</div>
+        <div class="ach-ev">VIT Finance and Management Club</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── EDUCATION ───────────────────────────────────────── -->
+<section class="sec">
+  <div class="sec-aside"><span class="sec-aside-t">Education</span></div>
+  <div class="sec-pad">
+    <div class="edu-card gc t3d t3d-d1">
       <div>
-        <p>
-          I'm a <strong>B.Tech Electronics Engineering (VLSI Design and Technology)</strong> student
-          at VIT Chennai, and I've spent the last two years going deep on the parts of chip design
-          most people only see one slice of: writing <strong>RTL and microarchitecture</strong>,
-          proving it correct with <strong>UVM and formal verification</strong>, and carrying it
-          through <strong>ASIC physical design</strong> to a manufacturable GDSII.
-        </p>
-        <p>
-          That's shown up as an FPGA-based neuromorphic accelerator at Edge Synapse, a full
-          RTL-to-GDSII SPI tapeout flow at Maven Silicon, and independent projects like SparseFlow,
-          a sparsity-aware neural network accelerator I took from architecture through a
-          DRC-clean layout on my own.
-        </p>
-        <p>
-          Outside the lab, I spent two years running operations for VIT's Finance and Management
-          Club — club member to Operations Director to Advisory — which is where I learned that
-          good hardware and good process both come down to the same thing: verify everything,
-          assume nothing.
-        </p>
+        <div class="edu-d">B.Tech · Electronics Engineering (VLSI Design and Technology)</div>
+        <div class="edu-u">Vellore Institute of Technology, Chennai</div>
+        <div class="edu-l">Chennai, India &nbsp;·&nbsp; 2023–2027 &nbsp;·&nbsp; CGPA 8.14/10.0</div>
       </div>
-
-      <div class="stack">
-        <div class="stack-row">
-          <span class="layer-id">M3 — EDA &amp; PHYSICAL DESIGN TOOLS</span>
-          <div class="chips">
-            <span class="chip">Cadence Genus</span><span class="chip">Innovus</span>
-            <span class="chip">Virtuoso</span><span class="chip">Tempus</span>
-            <span class="chip">Synopsys DC</span><span class="chip">ICC2</span>
-            <span class="chip">PrimeTime</span><span class="chip">QFLOW</span>
-            <span class="chip">Yosys</span><span class="chip">OpenROAD</span>
-            <span class="chip">Magic</span><span class="chip">Netgen</span>
-          </div>
-        </div>
-        <div class="stack-row">
-          <span class="layer-id">M2 — SIMULATION &amp; VERIFICATION</span>
-          <div class="chips">
-            <span class="chip">ModelSim</span><span class="chip">QuestaSim</span>
-            <span class="chip">VCS</span><span class="chip">OpenSTA</span>
-            <span class="chip">SymbiYosys</span><span class="chip">Cocotb</span>
-            <span class="chip">Xilinx Vivado</span>
-          </div>
-        </div>
-        <div class="stack-row">
-          <span class="layer-id">M1 — HDLs &amp; PROGRAMMING</span>
-          <div class="chips">
-            <span class="chip">Verilog</span><span class="chip">SystemVerilog</span>
-            <span class="chip">C</span><span class="chip">C++</span>
-            <span class="chip">Python</span><span class="chip">TCL</span>
-            <span class="chip">Embedded C</span>
-          </div>
-        </div>
-        <div class="stack-row">
-          <span class="layer-id">POLY — CORE CONCEPTS</span>
-          <div class="chips">
-            <span class="chip">RTL Design</span><span class="chip">Microarchitecture</span>
-            <span class="chip">Digital Logic Design</span><span class="chip">RTL-to-GDSII</span>
-            <span class="chip">Physical Design</span><span class="chip">STA</span>
-            <span class="chip">Design Verification</span><span class="chip">Low-Power Design</span>
-          </div>
-        </div>
+      <div class="edu-chips">
+        <span class="edu-chip">VLSI Physical Design</span>
+        <span class="edu-chip">Design Verification</span>
+        <span class="edu-chip">Computer Architecture</span>
+        <span class="edu-yr">2027</span>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <section id="experience">
-    <div class="head"><span class="tag">/experience</span><h2>Where I've built real hardware</h2></div>
-    <div class="timeline">
-
-      <div class="tl-item">
-        <div class="tl-head">
-          <div><div class="tl-role">Hardware Design Intern</div><div class="tl-org">Owens Corning — Robotics &amp; Automation</div></div>
-          <div class="tl-date">Summer 2026</div>
-        </div>
-        <ul>
-          <li>Worked on hardware design initiatives for robotics and automation, programming and integrating 8 Yaskawa industrial robotic arms.</li>
-          <li>Interfaced with PLC-based control systems for automation sequencing and I/O configuration, reducing manual setup steps.</li>
-        </ul>
-      </div>
-
-      <div class="tl-item">
-        <div class="tl-head">
-          <div><div class="tl-role">Physical Design Intern</div><div class="tl-org">Maven Silicon — SPI, RTL-to-GDSII via QFLOW</div></div>
-          <div class="tl-date">2026</div>
-        </div>
-        <ul>
-          <li>Executed the complete RTL-to-GDSII flow — synthesis, floorplanning, placement, CTS, routing and sign-off — using QFLOW, and improved post-CTS timing (WNS/TNS) using OpenSTA.</li>
-          <li>Completed physical sign-off via DRC and LVS verification using Magic and Netgen, delivering a clean GDSII with zero DRC/LVS violations.</li>
-        </ul>
-      </div>
-
-      <div class="tl-item">
-        <div class="tl-head">
-          <div><div class="tl-role">SNN–DDS Integration Intern</div><div class="tl-org">Edge Synapse — Neuromorphic AI Edge Accelerator</div></div>
-          <div class="tl-date">2025 – 2026</div>
-        </div>
-        <ul>
-          <li>Designed hardware Spiking Neural Network architectures using LIF neuron models, and developed multi-layer SNN modules in Verilog integrated with DDS IP.</li>
-          <li>Verified and deployed the design on FPGA (Zynq UltraScale+ MPSoC) using Vivado, achieving stable real-time operation.</li>
-        </ul>
-      </div>
-
+<!-- ── CONTACT ─────────────────────────────────────────── -->
+<section class="sec" id="contact" style="border-bottom:none">
+  <div class="sec-aside"><span class="sec-aside-t">Contact</span></div>
+  <div class="sec-pad">
+    <div class="sec-hd t3d t3d-d1" style="margin-bottom:16px;">
+      <div><div class="eyebrow">Section 05 / 05</div></div>
+      <div class="sec-num">005</div>
     </div>
-  </section>
-
-  <section id="projects">
-    <div class="head"><span class="tag">/projects</span><h2>Independent chip &amp; systems work</h2></div>
-    <div class="proj-grid">
-
-      <div class="proj">
-        <h3>SparseFlow</h3>
-        <div class="role">Sparsity-aware neural network hardware accelerator</div>
-        <p>Architected and implemented in RTL a hardware accelerator that exploits weight sparsity via a 64-bit zero-detection bitmap to clock-gate MAC cells — verified with UVM and formal methods, then synthesized to a DRC-clean GDSII.</p>
-        <div class="chips">
-          <span class="chip">RTL Design</span><span class="chip">UVM</span>
-          <span class="chip">Formal Verification</span><span class="chip">Physical Design</span>
-        </div>
-        <div class="proj-stats">
-          <div><b>54,436 µm²</b>GDSII area</div>
-          <div><b>20,917</b>cells (Nangate 45nm)</div>
-          <div><b>3</b>proven correctness properties</div>
-        </div>
-      </div>
-
-      <div class="proj">
-        <h3>AMBA AXI4 UVM Verification IP</h3>
-        <div class="role">Protocol verification environment</div>
-        <p>Built a parameterized AMBA AXI4 UVM verification IP with a master agent, scoreboard and golden reference model, plus functional coverage, to verify a self-checking RTL slave DUT.</p>
-        <div class="chips">
-          <span class="chip">SystemVerilog</span><span class="chip">UVM</span>
-          <span class="chip">AXI4 Protocol</span>
-        </div>
-        <div class="proj-stats">
-          <div><b>32/64/4</b>addr / data / ID bits</div>
-          <div><b>✓</b>self-checking DUT</div>
-        </div>
-      </div>
-
-      <div class="proj">
-        <h3>3×3 Box Filter</h3>
-        <div class="role">DSP &amp; VLSI implementation</div>
-        <p>Designed a 3-stage pipelined RTL architecture achieving one output per cycle in Vivado, plus a folded variant for area reduction, with an IEEE-format trade-off analysis of the two approaches.</p>
-        <div class="chips">
-          <span class="chip">Digital Signal Processing</span><span class="chip">RTL Design</span>
-          <span class="chip">Pipelined &amp; Folded Architecture</span>
-        </div>
-        <div class="proj-stats">
-          <div><b>1/cyc</b>pipelined throughput</div>
-          <div><b>2</b>architectures compared</div>
-        </div>
-      </div>
-
-      <div class="proj">
-        <h3>Handheld Multi-Game System</h3>
-        <div class="role">Embedded systems</div>
-        <p>Developed a handheld multi-game embedded system with graphics rendering on a 128×64 SSD1306 OLED over I2C, and GPIO-based button controls optimized for real-time gameplay.</p>
-        <div class="chips">
-          <span class="chip">Embedded C</span><span class="chip">Raspberry Pi Pico</span>
-          <span class="chip">I2C</span><span class="chip">GPIO</span>
-        </div>
-        <div class="proj-stats">
-          <div><b>128×64</b>OLED display</div>
-          <div><b>Real-time</b>gameplay loop</div>
-        </div>
-      </div>
-
+    <h2 class="contact-h t3d t3d-d2">Let's build<br><em>something real</em><span style="color:var(--acc)">.</span></h2>
+    <p style="font-size:14px;font-weight:400;color:var(--ink);line-height:1.75;max-width:480px;margin-bottom:24px">
+      Open for full-time roles, internships, and research collaborations in RTL design, verification, and physical design.
+    </p>
+    <div class="contact-grid">
+      <div class="cg-cell"><div class="cg-label">Email</div><a href="mailto:aneesh4651@gmail.com"><span class="cg-val">aneesh4651@gmail.com</span></a></div>
+      <div class="cg-cell"><div class="cg-label">LinkedIn</div><a href="https://www.linkedin.com/in/anish-shende" target="_blank" rel="noopener"><span class="cg-val">linkedin.com/in/anish-shende</span></a></div>
+      <div class="cg-cell"><div class="cg-label">GitHub</div><a href="https://github.com/aanishhhh" target="_blank" rel="noopener"><span class="cg-val">github.com/aanishhhh</span></a></div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <section id="recognition">
-    <div class="head"><span class="tag">/recognition</span><h2>Hackathons, certifications &amp; leadership</h2></div>
-    <div class="rec-grid">
-      <div class="rec-card">
-        <h3>RoboAOI — AMD AI DevMaster 2026</h3>
-        <p>Built solo, in the Physical AI track: an AI-powered robotic inspection and defect-sorting system for PCB/semiconductor manufacturing, using YOLO11 defect detection with a robotic arm in the Genesis simulator.</p>
-      </div>
-      <div class="rec-card">
-        <h3>Certifications</h3>
-        <ul>
-          <li>Digital Design and Signoff Academic Curriculum v1.0 — Cadence</li>
-          <li>Digital Design and Verification Academic Curriculum v1.0 — Cadence</li>
-          <li>Cadence Student Ambassador</li>
-        </ul>
-      </div>
-      <div class="rec-card">
-        <h3>VIT Finance &amp; Management Club</h3>
-        <ul>
-          <li>Advisory (current)</li>
-          <li>Operations Director</li>
-          <li>Club Member — Jul 2024 start</li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <section id="education">
-    <div class="head"><span class="tag">/education</span><h2>Education</h2></div>
-    <div class="edu-card">
-      <div>
-        <h3>B.Tech, Electronics Engineering (VLSI Design and Technology)</h3>
-        <div class="org">Vellore Institute of Technology, Chennai · Aug 2023 – Present</div>
-        <div class="chips">
-          <span class="chip">Computer Architecture</span><span class="chip">VLSI Physical Design</span>
-          <span class="chip">Digital IC Design</span><span class="chip">Design Verification</span>
-          <span class="chip">CAD for IC Design Algorithms</span><span class="chip">Semiconductor Devices</span>
-        </div>
-      </div>
-      <div class="cgpa">
-        <div class="v">8.14</div>
-        <div class="l">CGPA / 10.0</div>
-      </div>
-    </div>
-  </section>
-
-  <section id="contact">
-    <div class="head" style="margin-bottom:0;"><span class="tag">/contact</span></div>
-    <h2>Let's build something that ships clean.</h2>
-    <p class="lede">Open to RTL design, design verification, and physical design internships or full-time roles in the semiconductor industry. I reply fastest by email.</p>
-    <div class="contact-links">
-      <a href="mailto:aneesh4651@gmail.com">
-        <span class="k">Email</span><span class="val">aneesh4651@gmail.com</span>
-      </a>
-      <a href="https://www.linkedin.com/in/anish-shende-5bb85828a" target="_blank" rel="noopener">
-        <span class="k">LinkedIn</span><span class="val">linkedin.com/in/anish-shende</span>
-      </a>
-      <a href="https://github.com/aanishhhh" target="_blank" rel="noopener">
-        <span class="k">GitHub</span><span class="val">github.com/aanishhhh</span>
-      </a>
-    </div>
-  </section>
-
-</main>
-
+<!-- ── FOOTER ──────────────────────────────────────────── -->
 <footer>
-  <div class="wrap">
-    <span>Anish Anil Shende — VLSI · RTL · Verification · Physical Design</span>
-    <span>Chennai, India</span>
+  <div class="ft-l">Anish Shende · VLSI / RTL · Chennai</div>
+  <div class="ft-r">
+    <a href="https://github.com/aanishhhh" target="_blank" rel="noopener">GitHub</a>
+    <a href="https://www.linkedin.com/in/anish-shende" target="_blank" rel="noopener">LinkedIn</a>
+    <a href="mailto:aneesh4651@gmail.com">Email</a>
   </div>
 </footer>
 
 <script>
-  // mobile nav toggle
-  const burger = document.getElementById('burger');
-  const navLinks = document.getElementById('navLinks');
-  burger.addEventListener('click', () => navLinks.classList.toggle('open'));
-  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
+// Reveal animation only activates once JS confirms it can run end-to-end,
+// so content is never hidden behind a broken script.
+try {
+  document.documentElement.classList.add('js');
 
-  // scrollspy
-  const sections = ['about','experience','projects','education','contact']
-    .map(id => document.getElementById(id)).filter(Boolean);
-  const links = Array.from(navLinks.querySelectorAll('a[href^="#"]'));
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if(entry.isIntersecting){
-        const id = '#' + entry.target.id;
-        links.forEach(l => l.classList.toggle('active', l.getAttribute('href') === id));
-      }
+  if (typeof Lenis !== 'undefined') {
+    const lenis = new Lenis({ duration: 1.2, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), smooth: true, smoothTouch: false });
+    function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+    requestAnimationFrame(raf);
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{
+      a.addEventListener('click', e=>{
+        const t = document.querySelector(a.getAttribute('href'));
+        if(!t) return;
+        e.preventDefault();
+        lenis.scrollTo(t, { offset: 0, duration: 1.2 });
+      });
     });
-  }, { rootMargin: '-40% 0px -55% 0px' });
-  sections.forEach(s => io.observe(s));
+  }
+
+  const io = new IntersectionObserver(entries=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  },{threshold:.01});
+  document.querySelectorAll('.t3d').forEach(el=>io.observe(el));
+
+  document.querySelectorAll('.gc').forEach(card=>{
+    card.addEventListener('mousemove', e=>{
+      const r = card.getBoundingClientRect();
+      const dx = (e.clientX-(r.left+r.width/2))/(r.width/2);
+      const dy = (e.clientY-(r.top+r.height/2))/(r.height/2);
+      card.style.transform = `perspective(800px) scale(1.01) rotateX(${-dy*4}deg) rotateY(${dx*4}deg)`;
+    });
+    card.addEventListener('mouseleave', ()=>{ card.style.transform=''; });
+  });
+} catch (err) {
+  // If anything above fails, make absolutely sure content stays visible.
+  document.documentElement.classList.remove('js');
+  console.error('Portfolio JS error (content still visible):', err);
+}
+
+// Belt-and-suspenders: force everything visible shortly after load no matter what.
+setTimeout(() => {
+  document.querySelectorAll('.t3d:not(.in)').forEach(el => el.classList.add('in'));
+}, 1200);
+
+/* ── BOOT SEQUENCE (cosmetic only — never blocks content) ────────────── */
+try {
+  const bootLines = [
+    "ANISH_SHENDE_SYS_INIT v1.0.0",
+    "=============================",
+    "MOUNTING RTL FABRIC [ZYNQ ULTRASCALE+]...",
+    "ALLOCATING BRAM.......... OK",
+    "LOADING XDC CONSTRAINTS.. OK",
+    "RUNNING UVM REGRESSION... 0 ERRORS",
+    "DRC / LVS SIGNOFF........ CLEAN",
+    "GENERATING BITSTREAM..... OK",
+    "SYSTEM READY."
+  ];
+  const bootSeq = document.getElementById('boot-seq');
+  const bootTxt = document.getElementById('boot-txt');
+  if (bootSeq && bootTxt) {
+    let str = "", idx = 0;
+    function runBoot() {
+      if (idx < bootLines.length) {
+        str += bootLines[idx] + "\n";
+        bootTxt.innerText = str;
+        idx++;
+        setTimeout(runBoot, 45 + Math.random()*70);
+      } else {
+        setTimeout(() => {
+          bootSeq.classList.add('off');
+          setTimeout(() => bootSeq.classList.add('hidden'), 250);
+        }, 250);
+      }
+    }
+    runBoot();
+    // Absolute safety: hide boot overlay no matter what after 3.5s
+    setTimeout(() => { bootSeq.classList.add('off','hidden'); }, 3500);
+  }
+} catch (e) {
+  const b = document.getElementById('boot-seq');
+  if (b) b.classList.add('off','hidden');
+}
+
+/* ── CIRCUIT-TRACE BACKGROUND (cosmetic only, non-blocking) ──────────── */
+try {
+  const canvas = document.getElementById('circuit-bg');
+  if (canvas && canvas.getContext) {
+    const ctx = canvas.getContext('2d');
+    let W, H, nodes = [];
+    function resize() {
+      W = canvas.width = window.innerWidth;
+      H = canvas.height = window.innerHeight;
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    const cols = Math.ceil(window.innerWidth / 90) + 1;
+    const rows = Math.ceil(window.innerHeight / 90) + 1;
+    for (let i = 0; i < cols; i++) {
+      for (let j = 0; j < rows; j++) {
+        nodes.push({
+          x: i * 90 + (Math.random()*30-15),
+          y: j * 90 + (Math.random()*30-15),
+          phase: Math.random() * Math.PI * 2,
+          speed: 0.004 + Math.random()*0.006
+        });
+      }
+    }
+
+    let t = 0;
+    function draw() {
+      t += 1;
+      ctx.clearRect(0, 0, W, H);
+      ctx.strokeStyle = 'rgba(204,61,16,0.10)';
+      ctx.lineWidth = 1;
+      for (let i = 0; i < nodes.length; i++) {
+        const n = nodes[i];
+        const right = nodes[i + rows];
+        if (right && Math.random() > 0.3) {
+          ctx.beginPath();
+          ctx.moveTo(n.x, n.y);
+          ctx.lineTo(right.x, n.y);
+          ctx.lineTo(right.x, right.y);
+          ctx.stroke();
+        }
+      }
+      // Pulsing nodes (like active PEs / registers)
+      for (let i = 0; i < nodes.length; i++) {
+        const n = nodes[i];
+        const glow = (Math.sin(t * n.speed + n.phase) + 1) / 2;
+        if (glow > 0.75) {
+          ctx.beginPath();
+          ctx.arc(n.x, n.y, 2 + glow*1.5, 0, Math.PI*2);
+          ctx.fillStyle = `rgba(204,61,16,${glow*0.55})`;
+          ctx.fill();
+        }
+      }
+      requestAnimationFrame(draw);
+    }
+    requestAnimationFrame(draw);
+  }
+} catch (e) {
+  console.error('Circuit background failed (non-critical):', e);
+}
+
+/* ── MAGNETIC LINKS ────────────────────────────────────────────────── */
+try {
+  document.querySelectorAll('.nav-links a, .proj-gh, .ft-r a').forEach(el => {
+    el.addEventListener('mousemove', e => {
+      const r = el.getBoundingClientRect();
+      const dx = (e.clientX - (r.left + r.width/2)) * 0.25;
+      const dy = (e.clientY - (r.top + r.height/2)) * 0.25;
+      el.style.transform = `translate(${dx}px,${dy}px)`;
+    });
+    el.addEventListener('mouseleave', () => { el.style.transform = ''; });
+  });
+} catch (e) {}
+
+/* ── CUSTOM CURSOR: removed per request ───────────────────────────── */
+
+/* ── MORSE CODE LED — spells "HIRE ME" ────────────────────────────── */
+try {
+  const morseCode = { H:'····', I:'··', R:'·−·', E:'·', M:'−−' };
+  const msg = 'HIRE ME';
+  const seq = [];
+  for (const ch of msg) {
+    if (ch === ' ') { seq.push({on:false,dur:600}); continue; }
+    const code = morseCode[ch] || '';
+    for (const s of code) {
+      seq.push({on:true, dur: s === '·' ? 110 : 320});
+      seq.push({on:false, dur:90});
+    }
+    seq.push({on:false, dur:220});
+  }
+  seq.push({on:false, dur:900});
+  const led = document.getElementById('morse-led');
+  if (led) {
+    let idx = 0, elapsed = 0, last = performance.now();
+    function tick(now) {
+      elapsed += now - last; last = now;
+      if (elapsed >= seq[idx].dur) { elapsed = 0; idx = (idx + 1) % seq.length; }
+      led.classList.toggle('on', seq[idx].on);
+      requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+} catch (e) {}
+
+/* ── COUNT-UP STATS ON SCROLL ─────────────────────────────────────── */
+try {
+  const statMap = [
+    { sel: '.hbc-n', targets: null } // handled generically below via data attrs
+  ];
+  document.querySelectorAll('.hbc-n[data-count]').forEach(el => {
+    const to = parseFloat(el.getAttribute('data-count'));
+    const suffix = el.getAttribute('data-suffix') || '';
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          obs.disconnect();
+          let s = null;
+          function run(ts) {
+            if (!s) s = ts;
+            const p = Math.min((ts - s) / 1200, 1);
+            const eased = 1 - Math.pow(1 - p, 4);
+            el.textContent = (to % 1 === 0 ? Math.round(eased * to) : (eased * to).toFixed(2)) + suffix;
+            if (p < 1) requestAnimationFrame(run);
+          }
+          requestAnimationFrame(run);
+        }
+      });
+    }, { threshold: 0.4 });
+    obs.observe(el);
+  });
+} catch (e) {}
+
+/* ── TERMINAL EASTER EGG ──────────────────────────────────────────── */
+try {
+  const termUI = document.getElementById('term-ui');
+  const termIn = document.getElementById('term-in');
+  const termOut = document.getElementById('term-output');
+  const termOpenBtn = document.getElementById('term-open-btn');
+  const termClose = document.getElementById('term-close');
+  function openTerm() {
+    termUI.classList.remove('off');
+    setTimeout(() => termIn && termIn.focus(), 50);
+  }
+  function closeTerm() { termUI.classList.add('off'); }
+  if (termOpenBtn) termOpenBtn.addEventListener('click', openTerm);
+  if (termClose) termClose.addEventListener('click', closeTerm);
+  document.addEventListener('keydown', e => {
+    if ((e.key === '`' || e.key === '~') && document.activeElement !== termIn) {
+      e.preventDefault();
+      termUI.classList.contains('off') ? openTerm() : closeTerm();
+    }
+    if (e.key === 'Escape') closeTerm();
+  });
+  if (termIn) {
+    termIn.addEventListener('keydown', e => {
+      if (e.key !== 'Enter') return;
+      const val = e.target.value.trim().toLowerCase();
+      e.target.value = '';
+      if (!val) return;
+      const set = (msg) => termOut.textContent = '> ' + msg;
+      if (val === 'help') set('COMMANDS: help | whoami | skills | projects | contact | sudo hire-me | clear');
+      else if (val === 'whoami') set('ANISH SHENDE // VLSI / RTL DESIGN ENGINEER // VIT CHENNAI 2027');
+      else if (val === 'skills') set('SystemVerilog · UVM · RTL-to-GDSII · STA · DRC/LVS · AXI4 · Python');
+      else if (val === 'projects') { document.getElementById('projects')?.scrollIntoView({behavior:'smooth'}); closeTerm(); }
+      else if (val === 'contact') { document.getElementById('contact')?.scrollIntoView({behavior:'smooth'}); closeTerm(); }
+      else if (val === 'clear') termOut.textContent = '';
+      else if (val === 'sudo hire-me') set('PERMISSION GRANTED. REDIRECTING TO CONTACT...') || setTimeout(() => { document.getElementById('contact')?.scrollIntoView({behavior:'smooth'}); closeTerm(); }, 600);
+      else set(`ERR: UNKNOWN COMMAND "${val}" // TYPE help`);
+    });
+  }
+} catch (e) {}
+
+/* ── GLITCH FLASH ON NAV NAVIGATION ───────────────────────────────── */
+try {
+  const flash = document.createElement('div');
+  flash.id = 'glitch-flash';
+  document.body.appendChild(flash);
+  document.querySelectorAll('nav a').forEach(a => {
+    a.addEventListener('click', () => {
+      flash.style.transition = 'none';
+      flash.style.opacity = 0.5;
+      setTimeout(() => { flash.style.transition = 'opacity .4s'; flash.style.opacity = 0; }, 60);
+    });
+  });
+} catch (e) {}
+
+/* ── KONAMI CODE → MATRIX RAIN ────────────────────────────────────── */
+try {
+  const seqKeys = [38,38,40,40,37,39,37,39,66,65];
+  let ki = 0;
+  document.addEventListener('keydown', e => {
+    if (e.keyCode === seqKeys[ki]) {
+      ki++;
+      if (ki === seqKeys.length) { ki = 0; matrixRain(); }
+    } else { ki = 0; }
+  });
+  function matrixRain() {
+    const mc = document.createElement('canvas');
+    mc.style.cssText = 'position:fixed;inset:0;width:100vw;height:100vh;z-index:300000;pointer-events:none;opacity:0.9;transition:opacity 1.5s;';
+    mc.width = window.innerWidth; mc.height = window.innerHeight;
+    document.body.appendChild(mc);
+    const mctx = mc.getContext('2d');
+    const cols = Math.floor(mc.width / 14);
+    const drops = Array(cols).fill(1);
+    const chars = '01アイウエオカキクケコ';
+    const iv = setInterval(() => {
+      mctx.fillStyle = 'rgba(5,5,5,0.08)';
+      mctx.fillRect(0, 0, mc.width, mc.height);
+      mctx.font = '13px monospace';
+      for (let i = 0; i < cols; i++) {
+        const ch = chars[Math.floor(Math.random() * chars.length)];
+        mctx.fillStyle = i % 3 === 0 ? '#ff6a00' : '#cc3d10';
+        mctx.fillText(ch, i * 14, drops[i] * 14);
+        if (drops[i] * 14 > mc.height && Math.random() > 0.975) drops[i] = 0;
+        drops[i]++;
+      }
+    }, 40);
+    setTimeout(() => {
+      mc.style.opacity = 0;
+      setTimeout(() => { mc.remove(); clearInterval(iv); }, 1500);
+    }, 6000);
+  }
+} catch (e) {}
 </script>
 
 </body>
