@@ -14,11 +14,11 @@
 :root {
   --bg:      #050505;
   --ink:     #f4f4f5;
-  --acc:     #cc3d10;
-  --acc-rgb: 204,61,16;
+  --acc:     #14e0d8;
+  --acc-rgb: 20,224,216;
   --blue-rgb:30,77,183;
   --muted:   rgba(255,255,255,.85);
-  --bd:      rgba(204, 61, 16, 0.85);
+  --bd:      rgba(20, 224, 216, 0.85);
   --mono:    'Space Mono', monospace;
   --dsp:     'Inter', sans-serif;
   --ease:    cubic-bezier(.16,1,.3,1);
@@ -58,17 +58,14 @@ nav, .hero, .mq, .sec, footer { position:relative; z-index:2; }
   opacity:0; pointer-events:none; font:inherit; letter-spacing:inherit; color:inherit;
 }
 .glitch:hover::before { left:3px; color:var(--acc); opacity:.85; animation: glitch-r .18s steps(1) infinite; mix-blend-mode:screen; }
-.glitch:hover::after  { left:-3px; color:#4a9eff; opacity:.85; animation: glitch-b .22s steps(1) infinite; mix-blend-mode:screen; }
+.glitch:hover::after  { left:-3px; color:#7ee8ff; opacity:.85; animation: glitch-b .22s steps(1) infinite; mix-blend-mode:screen; }
 @keyframes glitch-r { 0%{clip-path:inset(0 0 88% 0)} 25%{clip-path:inset(45% 0 30% 0)} 50%{clip-path:inset(70% 0 10% 0)} 75%{clip-path:inset(20% 0 60% 0)} 100%{clip-path:inset(55% 0 25% 0)} }
 @keyframes glitch-b { 0%{clip-path:inset(15% 0 65% 0)} 25%{clip-path:inset(60% 0 8% 0)} 50%{clip-path:inset(30% 0 50% 0)} 75%{clip-path:inset(80% 0 5% 0)} 100%{clip-path:inset(5% 0 75% 0)} }
 
 /* ── BOOT SEQUENCE ────────────────────────────────────── */
-#boot-seq { position:fixed; inset:0; background:#050505; z-index:999999; padding:48px 40px; color:var(--acc); font-family:var(--mono); font-size:12px; text-transform:uppercase; letter-spacing:.1em; white-space:pre-wrap; line-height:1.8; transition:opacity .2s, transform .2s; }
-#boot-seq.off { opacity:0; transform:scale(1.04); pointer-events:none; }
-#boot-seq.hidden { display:none; }
 
 /* ── LIVE STATUS BAR ──────────────────────────────────── */
-.mq-t span.fpga { color:#4a9eff; font-weight:700; }
+.mq-t span.fpga { color:#7ee8ff; font-weight:700; }
 
 /* ── MAGNETIC HOVER ───────────────────────────────────── */
 .nav-links a, .proj-gh, .cg-cell a, .ft-r a { display:inline-block; transition: transform .12s linear, color .15s; }
@@ -82,21 +79,21 @@ body::after { content:''; position:fixed; inset:0; z-index:1; pointer-events:non
 
 /* ── NEON PULSE ON HOVER ──────────────────────────────── */
 .gc { transition: transform .35s var(--ease), box-shadow .35s var(--ease), border-color .35s; }
-.gc:hover { border-color: rgba(204,61,16,0.6); box-shadow: inset 0 1px 0 rgba(255,255,255,0.2), 0 0 0 1px rgba(204,61,16,0.2), 0 24px 64px rgba(0,0,0,0.8), 0 0 40px rgba(204,61,16,0.15); }
+.gc:hover { border-color: rgba(20,224,216,0.6); box-shadow: inset 0 1px 0 rgba(255,255,255,0.2), 0 0 0 1px rgba(20,224,216,0.2), 0 24px 64px rgba(0,0,0,0.8), 0 0 40px rgba(20,224,216,0.15); }
 
 /* ── COUNTER GLOW ─────────────────────────────────────── */
 .hbc-n { text-shadow: 0 0 0 transparent; transition: text-shadow .4s; }
-.hbc:hover .hbc-n { text-shadow: 0 0 18px rgba(204,61,16,0.7); }
+.hbc:hover .hbc-n { text-shadow: 0 0 18px rgba(20,224,216,0.7); }
 
 /* ── MORSE LED ────────────────────────────────────────── */
 #morse-led-wrap { position:fixed; bottom:20px; right:20px; z-index:400; display:flex; align-items:center; gap:8px; font-family:var(--mono); font-size:8px; letter-spacing:.16em; text-transform:uppercase; color:rgba(255,255,255,.4); }
-#morse-led { width:8px; height:8px; border-radius:50%; background:#300; box-shadow:0 0 4px rgba(204,61,16,0.3); transition:background .05s, box-shadow .05s; }
-#morse-led.on { background:var(--acc); box-shadow:0 0 12px rgba(204,61,16,1), 0 0 24px rgba(204,61,16,0.6); }
+#morse-led { width:8px; height:8px; border-radius:50%; background:#300; box-shadow:0 0 4px rgba(20,224,216,0.3); transition:background .05s, box-shadow .05s; }
+#morse-led.on { background:var(--acc); box-shadow:0 0 12px rgba(20,224,216,1), 0 0 24px rgba(20,224,216,0.6); }
 
 /* ── TERMINAL EASTER EGG ──────────────────────────────── */
 #term-open-btn { position:fixed; bottom:20px; left:20px; z-index:400; padding:10px 16px; background:rgba(5,5,5,0.85); border:1px solid rgba(255,255,255,0.15); border-radius:6px; font-family:var(--mono); font-size:9px; letter-spacing:.16em; text-transform:uppercase; color:var(--ink); cursor:pointer; backdrop-filter:blur(10px); transition:all .25s; }
-#term-open-btn:hover { border-color:var(--acc); color:var(--acc); box-shadow:0 0 16px rgba(204,61,16,0.25); }
-#term-ui { position:fixed; top:50%; left:50%; transform:translate(-50%,-60%); width:min(520px,90vw); padding:24px; background:linear-gradient(135deg, rgba(20,20,20,0.97), rgba(5,5,5,0.97)); border:1px solid var(--acc); border-radius:8px; z-index:100000; font-family:var(--mono); box-shadow:0 0 80px rgba(204,61,16,0.35), inset 0 1px 0 rgba(204,61,16,0.4); transition:transform .25s, opacity .25s; backdrop-filter:blur(24px); opacity:1; }
+#term-open-btn:hover { border-color:var(--acc); color:var(--acc); box-shadow:0 0 16px rgba(20,224,216,0.25); }
+#term-ui { position:fixed; top:50%; left:50%; transform:translate(-50%,-60%); width:min(520px,90vw); padding:24px; background:linear-gradient(135deg, rgba(20,20,20,0.97), rgba(5,5,5,0.97)); border:1px solid var(--acc); border-radius:8px; z-index:100000; font-family:var(--mono); box-shadow:0 0 80px rgba(20,224,216,0.35), inset 0 1px 0 rgba(20,224,216,0.4); transition:transform .25s, opacity .25s; backdrop-filter:blur(24px); opacity:1; }
 #term-ui.off { opacity:0; transform:translate(-50%,-80%); pointer-events:none; }
 #term-output { font-size:10px; color:rgba(255,255,255,0.55); margin-bottom:12px; line-height:1.8; min-height:40px; letter-spacing:.06em; white-space:pre-wrap; }
 #term-in { background:transparent; border:none; outline:none; color:var(--ink); font-family:var(--mono); width:100%; font-size:12px; letter-spacing:.06em; }
@@ -161,7 +158,7 @@ nav { position:fixed; top:0; left:0; right:0; z-index:600; height:44px; display:
 .sk-label { font-family:var(--mono); font-size:8.5px; letter-spacing:.18em; text-transform:uppercase; color:var(--ink); margin-bottom:10px; }
 .sk-tags { display:flex; flex-wrap:wrap; gap:4px; }
 .st { font-family:var(--mono); font-size:9px; letter-spacing:.06em; text-transform:uppercase; padding:3px 9px; border:2px solid var(--bd); color:var(--ink); }
-.st-a { border-color:rgba(204,61,16,.3); color:var(--acc); }
+.st-a { border-color:rgba(20,224,216,.3); color:var(--acc); }
 
 .exp-list { display:flex; flex-direction:column; }
 .exp-row { padding:32px; display:grid; grid-template-columns:120px 1fr 140px; gap:16px; margin-bottom: 24px; border-top:2px solid var(--bd); }
@@ -182,7 +179,6 @@ nav { position:fixed; top:0; left:0; right:0; z-index:600; height:44px; display:
 .proj-h { font-family:var(--dsp); font-weight:800; font-size:clamp(20px,2.5vw,26px); letter-spacing:-.04em; line-height:1.1; color:var(--ink); margin-bottom:10px; }
 .proj-desc { font-size:13.5px; font-weight:400; color:var(--ink); line-height:1.65; max-width:600px; }
 .proj-tech { display:flex; flex-wrap:wrap; gap:4px; margin-top:14px; }
-.proj-svg { display:block; width:100%; height:auto; margin-top:16px; border-radius:8px; border:1px solid rgba(255,255,255,0.06); }
 .pt { font-family:var(--mono); font-size:8px; letter-spacing:.12em; text-transform:uppercase; padding:2px 7px; border:2px solid var(--bd); color:var(--ink); }
 .proj-gh { font-family:var(--mono); font-size:8.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--ink); border-bottom:2px solid var(--bd); display:inline-block; margin-top:14px; }
 .proj-right { display:flex; flex-direction:column; align-items:flex-end; gap:14px; }
@@ -250,7 +246,7 @@ footer { border-top:2px solid var(--bd); padding:16px 32px; display:flex; align-
 </style>
 <meta property="og:title" content="Anish Shende — VLSI / RTL Design Engineer">
 <meta property="og:description" content="RTL-to-GDSII physical design, UVM verification, FPGA accelerators.">
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%23050505'/><text y='50' x='50' font-family='monospace' font-size='60' fill='%23cc3d10' text-anchor='middle' dominant-baseline='central'>_</text></svg>">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%23050505'/><text y='50' x='50' font-family='monospace' font-size='60' fill='%2314e0d8' text-anchor='middle' dominant-baseline='central'>_</text></svg>">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -282,8 +278,6 @@ footer { border-top:2px solid var(--bd); padding:16px 32px; display:flex; align-
   </div>
 </div>
 
-<div id="boot-seq"><div id="boot-txt"></div></div>
-
 <!-- ── NAV ────────────────────────────────────────────── -->
 <nav>
   <div class="nav-id">ARCHIVE / <b>ANISH SHENDE</b> / SYS.001</div>
@@ -310,8 +304,8 @@ footer { border-top:2px solid var(--bd); padding:16px 32px; display:flex; align-
     <div style="position:relative;width:100%;height:100%;display:flex;align-items:center;">
       <div style="position:absolute;left:0;top:0;bottom:0;width:28px;display:flex;align-items:center;justify-content:center;overflow:hidden;z-index:5;"><div style="position:absolute;right:0;top:0;bottom:0;width:1px;background:var(--bd);"></div><span style="font-family:var(--mono);font-size:7.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink);white-space:nowrap;transform:rotate(-90deg);display:block;">VLSI Engineer / LOG&nbsp;[01] / RTL / Verification / PD</span></div>
       <div style="flex:1;padding:0 32px 0 44px;">
-        <div class="h-line1 glitch" data-text="ANISH">ANISH</div>
-        <div class="h-line2 glitch" data-text="SHENDE.">SHENDE<span class="period">.</span></div>
+        <div class="h-line1">ANISH</div>
+        <div class="h-line2">SHENDE<span class="period">.</span></div>
       </div>
     </div>
   </div>
@@ -420,163 +414,52 @@ footer { border-top:2px solid var(--bd); padding:16px 32px; display:flex; align-
 
     <div class="proj-list">
       <div class="proj-item gc t3d t3d-d2">
-        <div class="proj-award-b">RTL &middot; UVM &amp; Formal Verification &middot; Physical Design</div>
         <div>
+          <div class="proj-award-b">RTL &middot; UVM &amp; Formal Verification &middot; Physical Design</div>
           <div class="proj-h">SparseFlow — Sparsity-Aware NN Hardware Accelerator</div>
           <div class="proj-desc">Architected and implemented in RTL a hardware accelerator exploiting weight sparsity via a 64-bit zero-detection bitmap to clock-gate MAC cells. Verified via directed simulation, a full UVM environment, and SymbiYosys formal verification (three proven correctness properties). Synthesized to a DRC-clean GDSII (Yosys/OpenROAD, Nangate 45nm, ~20,917 cells, ~54,436 µm²).</div>
-          <svg class="proj-svg" viewBox="0 0 560 150" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="SparseFlow bitmap-gated MAC array diagram">
-            <rect x="0" y="0" width="560" height="150" fill="rgba(255,255,255,0.02)" rx="8"/>
-            <text x="14" y="20" font-family="monospace" font-size="9" fill="rgba(255,255,255,.4)" letter-spacing="1">64-BIT ZERO-DETECT BITMAP → MAC CLOCK-GATE</text>
-            <g font-family="monospace" font-size="8" fill="rgba(255,255,255,.3)">
-              <rect x="14" y="30" width="220" height="14" fill="none" stroke="rgba(74,158,255,.4)"/>
-              <text x="20" y="40">1 0 1 1 0 0 1 0 1 1 0 1 0 0 1 1</text>
-            </g>
-            <g>
-              <line x1="70" y1="44" x2="70" y2="70" stroke="rgba(74,158,255,.4)"/>
-              <line x1="120" y1="44" x2="120" y2="70" stroke="rgba(74,158,255,.15)"/>
-              <line x1="170" y1="44" x2="170" y2="70" stroke="rgba(74,158,255,.4)"/>
-              <line x1="220" y1="44" x2="220" y2="70" stroke="rgba(74,158,255,.4)"/>
-            </g>
-            <g id="mac-grid"></g>
-            <g>
-              <!-- static MAC grid -->
-              <g fill="none" stroke="rgba(204,61,16,.5)">
-                <rect x="40" y="74" width="40" height="26" rx="3"/><rect x="90" y="74" width="40" height="26" rx="3" opacity=".15"/><rect x="140" y="74" width="40" height="26" rx="3"/><rect x="190" y="74" width="40" height="26" rx="3"/><rect x="240" y="74" width="40" height="26" rx="3" opacity=".15"/><rect x="290" y="74" width="40" height="26" rx="3"/>
-                <rect x="40" y="108" width="40" height="26" rx="3" opacity=".15"/><rect x="90" y="108" width="40" height="26" rx="3"/><rect x="140" y="108" width="40" height="26" rx="3"/><rect x="190" y="108" width="40" height="26" rx="3" opacity=".15"/><rect x="240" y="108" width="40" height="26" rx="3"/><rect x="290" y="108" width="40" height="26" rx="3"/>
-              </g>
-              <text x="345" y="90" font-family="monospace" font-size="8" fill="rgba(255,255,255,.35)">MAC ARRAY</text>
-              <text x="345" y="102" font-family="monospace" font-size="8" fill="rgba(255,255,255,.35)">solid = active</text>
-              <text x="345" y="114" font-family="monospace" font-size="8" fill="rgba(255,255,255,.35)">faint = gated</text>
-              <text x="345" y="130" font-family="monospace" font-size="8" fill="rgba(255,255,255,.35)">(weight = 0)</text>
-            </g>
-          </svg>
           <div class="proj-tech"><span class="pt">SystemVerilog</span><span class="pt">UVM</span><span class="pt">SymbiYosys</span><span class="pt">Yosys / OpenROAD</span><span class="pt">Nangate 45nm</span></div>
         </div>
         <div class="proj-right">
           <div><div class="proj-stn">0</div><div class="proj-stl">DRC/LVS violations</div></div>
           <div><div class="proj-stn">54,436 µm²</div><div class="proj-stl">GDSII die area</div></div>
-        </div>
+      </div>
       </div>
 
       <div class="proj-item gc t3d t3d-d1">
-        <div class="proj-award-b">SystemVerilog &middot; UVM &middot; AXI4 Protocol</div>
         <div>
+          <div class="proj-award-b">SystemVerilog &middot; UVM &middot; AXI4 Protocol</div>
           <div class="proj-h">AMBA AXI4 UVM Verification IP</div>
           <div class="proj-desc">Built a parameterized AMBA AXI4 UVM Verification IP with a master agent (driver, monitor, sequencer), a passive slave-side monitor, a scoreboard with a golden reference memory model, and a functional coverage model, verifying a self-checking RTL slave DUT. Extensible to multi-master/multi-slave topologies.</div>
-          <svg class="proj-svg" viewBox="0 0 560 140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="AXI4 write handshake waveform diagram">
-            <rect x="0" y="0" width="560" height="140" fill="rgba(255,255,255,0.02)" rx="8"/>
-            <text x="14" y="18" font-family="monospace" font-size="9" fill="rgba(255,255,255,.4)" letter-spacing="1">AXI4 WRITE HANDSHAKE // VALID-READY</text>
-            <g font-family="monospace" font-size="9" fill="rgba(255,255,255,.4)">
-              <text x="14" y="46">ACLK</text>
-              <text x="14" y="72">AWVALID</text>
-              <text x="14" y="98">AWREADY</text>
-              <text x="14" y="124">WDATA</text>
-            </g>
-            <g stroke="rgba(255,255,255,.3)" fill="none" stroke-width="1.4">
-              <path d="M100 40 h20 v-10 h20 v10 h20 v-10 h20 v10 h20 v-10 h20 v10 h20 v-10 h20 v10 h20 v-10 h20 v10 h20 v-10 h20 v10"/>
-            </g>
-            <g stroke="#4a9eff" fill="none" stroke-width="1.6">
-              <path d="M100 72 h60 v-14 h300 v14 h20"/>
-            </g>
-            <g stroke="var(--acc)" fill="none" stroke-width="1.6">
-              <path d="M100 98 h140 v-14 h220 v14 h20"/>
-            </g>
-            <g stroke="rgba(255,255,255,.35)" fill="none" stroke-width="1.6" stroke-dasharray="3 3">
-              <path d="M100 124 h140 v-14 h220 v14 h20"/>
-            </g>
-            <text x="260" y="72" font-family="monospace" font-size="7" fill="#4a9eff">master asserts</text>
-            <text x="330" y="98" font-family="monospace" font-size="7" fill="var(--acc)">slave accepts</text>
-          </svg>
           <div class="proj-tech"><span class="pt">SystemVerilog</span><span class="pt">UVM</span><span class="pt">AXI4</span><span class="pt">Functional Coverage</span></div>
         </div>
         <div class="proj-right">
           <div><div class="proj-stn">32/64/4</div><div class="proj-stl">Addr/Data/ID bits</div></div>
-        </div>
+      </div>
       </div>
 
       <div class="proj-item gc t3d t3d-d2">
-        <div class="proj-award-b">DSP &middot; RTL Design &middot; Pipelined &amp; Folded Architecture</div>
         <div>
+          <div class="proj-award-b">DSP &middot; RTL Design &middot; Pipelined &amp; Folded Architecture</div>
           <div class="proj-h">3×3 Box Filter — DSP &amp; VLSI Implementation</div>
           <div class="proj-desc">Implemented a 3×3 moving average filter for image processing in Python (NumPy, OpenCV) and Verilog RTL. Designed a 3-stage pipelined architecture in Xilinx Vivado achieving 1 output/cycle, plus a folded variant for area reduction via adder reuse. Published an IEEE-format report analyzing the pipelining vs. folding trade-off.</div>
-          <svg class="proj-svg" viewBox="0 0 560 150" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="3x3 box filter convolution kernel diagram">
-            <rect x="0" y="0" width="560" height="150" fill="rgba(255,255,255,0.02)" rx="8"/>
-            <text x="14" y="18" font-family="monospace" font-size="9" fill="rgba(255,255,255,.4)" letter-spacing="1">3×3 KERNEL SLIDING OVER IMAGE PLANE</text>
-            <g>
-              <!-- image grid -->
-              <g stroke="rgba(255,255,255,.12)" fill="rgba(255,255,255,.02)">
-                <rect x="30" y="30" width="196" height="98"/>
-              </g>
-              <g stroke="rgba(255,255,255,.08)">
-                <line x1="30" y1="52" x2="226" y2="52"/><line x1="30" y1="74" x2="226" y2="74"/><line x1="30" y1="96" x2="226" y2="96"/><line x1="30" y1="118" x2="226" y2="118"/>
-                <line x1="52" y1="30" x2="52" y2="128"/><line x1="74" y1="30" x2="74" y2="128"/><line x1="96" y1="30" x2="96" y2="128"/><line x1="118" y1="30" x2="118" y2="128"/><line x1="140" y1="30" x2="140" y2="128"/><line x1="162" y1="30" x2="162" y2="128"/><line x1="184" y1="30" x2="184" y2="128"/><line x1="206" y1="30" x2="206" y2="128"/>
-              </g>
-              <rect x="74" y="52" width="66" height="66" fill="none" stroke="var(--acc)" stroke-width="2"/>
-            </g>
-            <g transform="translate(280,30)">
-              <text x="0" y="0" font-family="monospace" font-size="8" fill="rgba(255,255,255,.35)">KERNEL (1/9 avg)</text>
-              <g stroke="rgba(255,255,255,.2)" fill="rgba(255,255,255,.03)">
-                <rect x="0" y="10" width="90" height="90"/>
-                <line x1="0" y1="40" x2="90" y2="40"/><line x1="0" y1="70" x2="90" y2="70"/>
-                <line x1="30" y1="10" x2="30" y2="100"/><line x1="60" y1="10" x2="60" y2="100"/>
-              </g>
-              <g font-family="monospace" font-size="9" fill="#4a9eff" text-anchor="middle">
-                <text x="15" y="30">1</text><text x="45" y="30">1</text><text x="75" y="30">1</text>
-                <text x="15" y="60">1</text><text x="45" y="60">1</text><text x="75" y="60">1</text>
-                <text x="15" y="90">1</text><text x="45" y="90">1</text><text x="75" y="90">1</text>
-              </g>
-            </g>
-            <g transform="translate(410,60)" font-family="monospace" font-size="8" fill="rgba(255,255,255,.4)">
-              <text x="0" y="0">pipelined:</text>
-              <text x="0" y="14" fill="var(--acc)">1 output / cycle</text>
-              <text x="0" y="34">folded:</text>
-              <text x="0" y="48" fill="#4a9eff">adder reuse, ↓area</text>
-            </g>
-          </svg>
           <div class="proj-tech"><span class="pt">Verilog</span><span class="pt">Xilinx Vivado</span><span class="pt">Python / OpenCV</span></div>
         </div>
         <div class="proj-right">
           <div><div class="proj-stn">1/cyc</div><div class="proj-stl">Output throughput</div></div>
-        </div>
+      </div>
       </div>
 
       <div class="proj-item gc t3d t3d-d3">
-        <div class="proj-award-b">Embedded C &middot; Raspberry Pi Pico &middot; I2C / GPIO</div>
         <div>
+          <div class="proj-award-b">Embedded C &middot; Raspberry Pi Pico &middot; I2C / GPIO</div>
           <div class="proj-h">Handheld Multi-Game Embedded System</div>
           <div class="proj-desc">Developed a handheld multi-game embedded system with graphics rendering on a 128×64 SSD1306 OLED over I2C and GPIO-based button controls, optimized for real-time gameplay on a Raspberry Pi Pico.</div>
-          <svg class="proj-svg" viewBox="0 0 560 150" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Handheld device with OLED screen and D-pad sketch">
-            <rect x="0" y="0" width="560" height="150" fill="rgba(255,255,255,0.02)" rx="8"/>
-            <text x="14" y="18" font-family="monospace" font-size="9" fill="rgba(255,255,255,.4)" letter-spacing="1">RASPBERRY PI PICO + SSD1306 128×64 OLED</text>
-            <g transform="translate(200,30)">
-              <rect x="0" y="0" width="160" height="100" rx="10" fill="rgba(255,255,255,.03)" stroke="rgba(255,255,255,.2)"/>
-              <rect x="16" y="14" width="128" height="46" fill="#050505" stroke="var(--acc)" stroke-width="1.5"/>
-              <g fill="#4a9eff">
-                <rect x="24" y="24" width="4" height="4"/><rect x="32" y="20" width="4" height="4"/><rect x="40" y="30" width="4" height="4"/><rect x="48" y="36" width="4" height="4"/><rect x="56" y="24" width="4" height="4"/><rect x="64" y="40" width="4" height="4"/><rect x="72" y="22" width="4" height="4"/><rect x="80" y="34" width="4" height="4"/><rect x="88" y="28" width="4" height="4"/><rect x="96" y="44" width="4" height="4"/><rect x="104" y="26" width="4" height="4"/><rect x="112" y="38" width="4" height="4"/><rect x="120" y="24" width="4" height="4"/>
-              </g>
-              <text x="80" y="42" font-family="monospace" font-size="7" fill="rgba(255,255,255,.5)" text-anchor="middle">128×64 I2C</text>
-              <!-- d-pad -->
-              <g fill="rgba(255,255,255,.15)" stroke="rgba(255,255,255,.3)">
-                <rect x="20" y="72" width="12" height="12"/><rect x="20" y="60" width="12" height="12"/><rect x="20" y="84" width="12" height="12"/><rect x="8" y="72" width="12" height="12"/><rect x="32" y="72" width="12" height="12"/>
-              </g>
-              <!-- buttons -->
-              <circle cx="128" cy="76" r="7" fill="rgba(204,61,16,.4)" stroke="var(--acc)"/>
-              <circle cx="112" cy="86" r="7" fill="rgba(74,158,255,.3)" stroke="#4a9eff"/>
-            </g>
-            <g transform="translate(30,50)" font-family="monospace" font-size="8" fill="rgba(255,255,255,.4)">
-              <text x="0" y="0">GPIO buttons</text>
-              <text x="0" y="16">↓</text>
-              <text x="0" y="32">I2C bus</text>
-              <text x="0" y="48">↓</text>
-              <text x="0" y="64">OLED render</text>
-              <text x="0" y="80">loop</text>
-            </g>
-          </svg>
           <div class="proj-tech"><span class="pt">Embedded C</span><span class="pt">Raspberry Pi Pico</span><span class="pt">I2C</span><span class="pt">SSD1306 OLED</span></div>
         </div>
         <div class="proj-right">
           <div><div class="proj-stn">128×64</div><div class="proj-stl">OLED display</div></div>
-        </div>
+      </div>
       </div>
     </div>
   </div>
@@ -711,45 +594,6 @@ setTimeout(() => {
   document.querySelectorAll('.t3d:not(.in)').forEach(el => el.classList.add('in'));
 }, 1200);
 
-/* ── BOOT SEQUENCE (cosmetic only — never blocks content) ────────────── */
-try {
-  const bootLines = [
-    "ANISH_SHENDE_SYS_INIT v1.0.0",
-    "=============================",
-    "MOUNTING RTL FABRIC [ZYNQ ULTRASCALE+]...",
-    "ALLOCATING BRAM.......... OK",
-    "LOADING XDC CONSTRAINTS.. OK",
-    "RUNNING UVM REGRESSION... 0 ERRORS",
-    "DRC / LVS SIGNOFF........ CLEAN",
-    "GENERATING BITSTREAM..... OK",
-    "SYSTEM READY."
-  ];
-  const bootSeq = document.getElementById('boot-seq');
-  const bootTxt = document.getElementById('boot-txt');
-  if (bootSeq && bootTxt) {
-    let str = "", idx = 0;
-    function runBoot() {
-      if (idx < bootLines.length) {
-        str += bootLines[idx] + "\n";
-        bootTxt.innerText = str;
-        idx++;
-        setTimeout(runBoot, 45 + Math.random()*70);
-      } else {
-        setTimeout(() => {
-          bootSeq.classList.add('off');
-          setTimeout(() => bootSeq.classList.add('hidden'), 250);
-        }, 250);
-      }
-    }
-    runBoot();
-    // Absolute safety: hide boot overlay no matter what after 3.5s
-    setTimeout(() => { bootSeq.classList.add('off','hidden'); }, 3500);
-  }
-} catch (e) {
-  const b = document.getElementById('boot-seq');
-  if (b) b.classList.add('off','hidden');
-}
-
 /* ── CIRCUIT-TRACE BACKGROUND (cosmetic only, non-blocking) ──────────── */
 try {
   const canvas = document.getElementById('circuit-bg');
@@ -780,7 +624,7 @@ try {
     function draw() {
       t += 1;
       ctx.clearRect(0, 0, W, H);
-      ctx.strokeStyle = 'rgba(204,61,16,0.10)';
+      ctx.strokeStyle = 'rgba(20,224,216,0.10)';
       ctx.lineWidth = 1;
       for (let i = 0; i < nodes.length; i++) {
         const n = nodes[i];
@@ -800,7 +644,7 @@ try {
         if (glow > 0.75) {
           ctx.beginPath();
           ctx.arc(n.x, n.y, 2 + glow*1.5, 0, Math.PI*2);
-          ctx.fillStyle = `rgba(204,61,16,${glow*0.55})`;
+          ctx.fillStyle = `rgba(20,224,216,${glow*0.55})`;
           ctx.fill();
         }
       }
@@ -962,7 +806,7 @@ try {
       mctx.font = '13px monospace';
       for (let i = 0; i < cols; i++) {
         const ch = chars[Math.floor(Math.random() * chars.length)];
-        mctx.fillStyle = i % 3 === 0 ? '#ff6a00' : '#cc3d10';
+        mctx.fillStyle = i % 3 === 0 ? '#5cf5ee' : '#14e0d8';
         mctx.fillText(ch, i * 14, drops[i] * 14);
         if (drops[i] * 14 > mc.height && Math.random() > 0.975) drops[i] = 0;
         drops[i]++;
