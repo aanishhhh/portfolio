@@ -256,7 +256,7 @@ footer { border-top:2px solid var(--bd); padding:16px 32px; display:flex; align-
   "jobTitle": "VLSI / RTL Design Engineer",
   "sameAs": [
     "https://github.com/aanishhhh",
-    "https://www.linkedin.com/in/anish-shende-5bb85828a/"
+    "https://www.linkedin.com/in/anish-shende"
   ]
 }
 </script>
@@ -315,7 +315,7 @@ footer { border-top:2px solid var(--bd); padding:16px 32px; display:flex; align-
     <div class="hbc"><div class="hbc-n" data-count="8.14" data-suffix="">0</div><div class="hbc-l">CGPA / 10.0<br>VIT Chennai</div></div>
     <div class="hbc"><div class="hbc-n" data-count="0" data-suffix="">0</div><div class="hbc-l">DRC / LVS violations<br>SparseFlow GDSII</div></div>
     <div class="hbc"><div class="hbc-n" data-count="3" data-suffix="">0</div><div class="hbc-l">Industry internships<br>Owens Corning / Maven / Edge Synapse</div></div>
-    <div class="hbc"><div class="hbc-n" data-count="4" data-suffix="">0</div><div class="hbc-l">Full-stack RTL projects<br>RTL → Verify → PD</div></div>
+    <div class="hbc"><div class="hbc-n" data-count="5" data-suffix="">0</div><div class="hbc-l">Full-stack RTL projects<br>RTL → Verify → PD</div></div>
   </div>
 </section>
 
@@ -442,6 +442,12 @@ footer { border-top:2px solid var(--bd); padding:16px 32px; display:flex; align-
             <text x="345" y="114" font-family="monospace" font-size="8" fill="rgba(255,255,255,.35)">faint = gated</text>
             <text x="345" y="130" font-family="monospace" font-size="8" fill="rgba(255,255,255,.35)">(weight = 0)</text>
           </svg>
+        </div>
+        <div class="proj-right">
+          <div><div class="proj-stn">0</div><div class="proj-stl">DRC/LVS violations</div></div>
+          <div><div class="proj-stn">54,436 µm²</div><div class="proj-stl">GDSII die area</div></div>
+        </div>
+      </div>
 
       <div class="proj-item gc t3d t3d-d1">
         <div>
@@ -476,7 +482,61 @@ footer { border-top:2px solid var(--bd); padding:16px 32px; display:flex; align-
         </div>
         <div class="proj-right">
           <div><div class="proj-stn">32/64/4</div><div class="proj-stl">Addr/Data/ID bits</div></div>
+        </div>
       </div>
+
+      <div class="proj-item gc t3d t3d-d3">
+        <div>
+          <div class="proj-award-b">SystemVerilog &middot; AXI4 &middot; FPGA &middot; Vivado</div>
+          <div class="proj-h">AXI4 Scatter-Gather DMA Engine</div>
+          <div class="proj-desc">Built a software-programmable scatter-gather DMA engine from scratch in SystemVerilog, mirroring how production IP (e.g. Xilinx's AXI DMA) actually works. An AXI4-Lite register interface lets an embedded CPU queue a linked list of transfer descriptors in DDR, which the hardware then walks autonomously with zero per-transfer CPU intervention. A generic AXI4 write master legalizes arbitrary transfer lengths into protocol-compliant bursts — respecting both the 256-beat limit and the 4KB address-boundary rule — and bus errors (SLVERR/DECERR) are captured, reported through status registers, and halt the descriptor chain via a dedicated interrupt rather than being silently dropped. Verified with a self-checking testbench across five scenarios (single transfer, multi-descriptor chains, burst-splitting, boundary-crossing, injected bus errors) — 15/15 checks passing with zero AXI4 protocol violations, cross-verified on both Icarus Verilog and Vivado XSIM — plus runtime SVA checking protocol legality and engine invariants during simulation.</div>
+          <div class="proj-tech"><span class="pt">SystemVerilog</span><span class="pt">AXI4 / AXI4-Lite</span><span class="pt">SVA</span><span class="pt">Icarus Verilog</span><span class="pt">Vivado XSIM</span></div>
+          <svg class="proj-svg" viewBox="0 0 560 150" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Scatter-gather DMA descriptor chain diagram">
+            <rect x="0" y="0" width="560" height="150" fill="rgba(255,255,255,0.02)" rx="8"/>
+            <text x="14" y="18" font-family="monospace" font-size="9" fill="rgba(255,255,255,.4)" letter-spacing="1">DESCRIPTOR CHAIN IN DDR → LEGALIZED AXI4 BURSTS</text>
+            <g font-family="monospace" font-size="8" fill="rgba(255,255,255,.4)">
+              <rect x="20" y="34" width="90" height="40" rx="4" fill="none" stroke="var(--acc)"/>
+              <text x="65" y="50" text-anchor="middle">DESC 0</text>
+              <text x="65" y="64" text-anchor="middle" fill="rgba(255,255,255,.3)">next →</text>
+
+              <rect x="140" y="34" width="90" height="40" rx="4" fill="none" stroke="var(--acc)"/>
+              <text x="185" y="50" text-anchor="middle">DESC 1</text>
+              <text x="185" y="64" text-anchor="middle" fill="rgba(255,255,255,.3)">next →</text>
+
+              <rect x="260" y="34" width="90" height="40" rx="4" fill="none" stroke="var(--acc)" stroke-dasharray="3 3"/>
+              <text x="305" y="50" text-anchor="middle">DESC 2</text>
+              <text x="305" y="64" text-anchor="middle" fill="rgba(255,255,255,.3)">NULL</text>
+            </g>
+            <g stroke="var(--acc)" stroke-opacity="0.5">
+              <line x1="110" y1="54" x2="140" y2="54"/>
+              <line x1="230" y1="54" x2="260" y2="54"/>
+            </g>
+            <text x="20" y="20" font-family="monospace" font-size="7" fill="rgba(255,255,255,.3)"></text>
+            <g font-family="monospace" font-size="8" fill="rgba(255,255,255,.4)">
+              <text x="20" y="98">AXI4-LITE CTRL</text>
+              <rect x="20" y="106" width="150" height="24" rx="4" fill="none" stroke="#7ee8ff"/>
+              <text x="95" y="122" text-anchor="middle" fill="#7ee8ff">CPU programs base ptr</text>
+            </g>
+            <g stroke="#7ee8ff" stroke-opacity="0.5">
+              <line x1="95" y1="106" x2="65" y2="74"/>
+            </g>
+            <g font-family="monospace" font-size="8" fill="rgba(255,255,255,.4)">
+              <text x="380" y="40">BURST LEGALIZER</text>
+              <rect x="380" y="48" width="150" height="60" rx="4" fill="none" stroke="var(--acc)"/>
+              <text x="390" y="66">≤256 beats/burst</text>
+              <text x="390" y="80">no 4KB boundary</text>
+              <text x="390" y="94">crossing</text>
+            </g>
+            <g stroke="var(--acc)" stroke-opacity="0.5">
+              <line x1="350" y1="54" x2="380" y2="78"/>
+            </g>
+            <text x="380" y="128" font-family="monospace" font-size="8" fill="rgba(255,255,255,.3)">SLVERR/DECERR → status reg + IRQ, chain halts</text>
+          </svg>
+        </div>
+        <div class="proj-right">
+          <div><div class="proj-stn">15/15</div><div class="proj-stl">Checks passing</div></div>
+          <div><div class="proj-stn">2 sims</div><div class="proj-stl">Icarus + Vivado XSIM</div></div>
+        </div>
       </div>
 
       <div class="proj-item gc t3d t3d-d2">
@@ -519,7 +579,7 @@ footer { border-top:2px solid var(--bd); padding:16px 32px; display:flex; align-
         </div>
         <div class="proj-right">
           <div><div class="proj-stn">1/cyc</div><div class="proj-stl">Output throughput</div></div>
-      </div>
+        </div>
       </div>
 
       <div class="proj-item gc t3d t3d-d3">
@@ -556,7 +616,7 @@ footer { border-top:2px solid var(--bd); padding:16px 32px; display:flex; align-
         </div>
         <div class="proj-right">
           <div><div class="proj-stn">128×64</div><div class="proj-stl">OLED display</div></div>
-      </div>
+        </div>
       </div>
     </div>
   </div>
@@ -630,7 +690,7 @@ footer { border-top:2px solid var(--bd); padding:16px 32px; display:flex; align-
     </p>
     <div class="contact-grid">
       <div class="cg-cell"><div class="cg-label">Email</div><a href="mailto:aneesh4651@gmail.com"><span class="cg-val">aneesh4651@gmail.com</span></a></div>
-      <div class="cg-cell"><div class="cg-label">LinkedIn</div><a href="https://www.linkedin.com/in/anish-shende-5bb85828a/" target="_blank" rel="noopener"><span class="cg-val">linkedin.com/in/anish-shende-5bb85828a</span></a></div>
+      <div class="cg-cell"><div class="cg-label">LinkedIn</div><a href="https://www.linkedin.com/in/anish-shende" target="_blank" rel="noopener"><span class="cg-val">linkedin.com/in/anish-shende</span></a></div>
       <div class="cg-cell"><div class="cg-label">GitHub</div><a href="https://github.com/aanishhhh" target="_blank" rel="noopener"><span class="cg-val">github.com/aanishhhh</span></a></div>
     </div>
   </div>
@@ -641,7 +701,7 @@ footer { border-top:2px solid var(--bd); padding:16px 32px; display:flex; align-
   <div class="ft-l">Anish Shende · VLSI / RTL · Chennai</div>
   <div class="ft-r">
     <a href="https://github.com/aanishhhh" target="_blank" rel="noopener">GitHub</a>
-    <a href="https://www.linkedin.com/in/anish-shende-5bb85828a/" target="_blank" rel="noopener">LinkedIn</a>
+    <a href="https://www.linkedin.com/in/anish-shende" target="_blank" rel="noopener">LinkedIn</a>
     <a href="mailto:aneesh4651@gmail.com">Email</a>
   </div>
 </footer>
